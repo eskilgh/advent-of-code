@@ -24,8 +24,9 @@ static async Task<int> HandleScaffold(ScaffoldOptions opts)
   }
   catch (Exception ex)
   {
-    Console.Error.WriteLine(ex.StackTrace);
     Console.WriteLine(ex.Message);
+    Console.WriteLine();
+    Console.Error.WriteLine(ex.StackTrace);
     return 1;
   }
   return 0;
@@ -36,7 +37,17 @@ static async Task<int> HandleRun(RunOptions opts)
   var year = opts.Date.Split('/')[0];
   var day = opts.Date.Split('/')[1];
   var runner = new Runner(year: year, day: day, rootDir: Environment.CurrentDirectory);
-  await runner.Run(opts.Example);
+  try
+  {
+    await runner.Run(opts.Example);
+  }
+  catch (Exception ex)
+  {
+    Console.WriteLine(ex.Message);
+    Console.WriteLine();
+    Console.Error.WriteLine(ex.StackTrace);
+    return 1;
+  }
   return 0;
 }
 

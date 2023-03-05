@@ -32,11 +32,11 @@ public class Scaffolder
     var context = GetContext();
     var input = await GetInput(context);
     var inputPath = Path.Combine(TargetDir, "input.txt");
-    await File.WriteAllTextAsync(inputPath, input);
+    await WriteToFile(path: inputPath, content: input);
 
     var exampleInput = await GetExampleInput(context);
     var exampleInputPath = Path.Combine(TargetDir, "input.example.txt");
-    await File.WriteAllTextAsync(exampleInputPath, exampleInput);
+    await WriteToFile(path: exampleInputPath, content: exampleInput);
   }
 
   private async Task<string> GetExampleInput(IBrowsingContext context)
@@ -82,7 +82,16 @@ public class Scaffolder
     }
     var solverTemplate = SolverTemplateGenerator.Generate(year: Year, day: Day);
     var solverPath = Path.Combine(TargetDir, "Solver.cs");
-    await File.WriteAllTextAsync(solverPath, solverTemplate);
+    await WriteToFile(content: solverTemplate, path: solverPath);
+  }
+
+  private async Task WriteToFile(string content, string path)
+  {
+    if (File.Exists(path))
+    {
+      throw new Exception($"File already exists on {path} ");
+    }
+    await File.WriteAllTextAsync(path, content);
   }
 
   private static string GetSession()
