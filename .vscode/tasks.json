@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"build",
+				"${workspaceFolder}/src/AdventOfCode/AdventOfCode.csproj"
+			],
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		},
+		{
+			"label": "update",
+			"command": "dotnet",
+			"args": [
+					"run",
+					"${input:year}/${input:day}"
+			],
+			"problemMatcher": [],
+			"dependsOn": [
+					"build"
+			]
+		}
+	]
+}
