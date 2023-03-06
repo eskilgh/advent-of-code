@@ -24,8 +24,8 @@ static async Task<int> HandleScaffold(ScaffoldOptions opts)
   }
   catch (Exception ex)
   {
-    Console.WriteLine(ex.Message);
-    Console.WriteLine();
+    Console.Error.WriteLine(ex.Message);
+    Console.Error.WriteLine();
     Console.Error.WriteLine(ex.StackTrace);
     return 1;
   }

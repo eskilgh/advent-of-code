@@ -28,9 +28,9 @@ public class Runner
     var partTwoAnswer = solver.PartTwo(input);
 
     Console.WriteLine();
-    Console.WriteLine($"{Year}/{Day} Answer part one:");
+    Console.WriteLine($"{Year}/{Day} Answer {(exampleMode ? "(example) " : "")}part one:");
     Console.WriteLine(partOneAnswer);
-    Console.WriteLine($"{Year}/{Day} Answer part two:");
+    Console.WriteLine($"{Year}/{Day} Answer {(exampleMode ? "(example) " : "")}part two:");
     Console.WriteLine(partTwoAnswer);
   }
 

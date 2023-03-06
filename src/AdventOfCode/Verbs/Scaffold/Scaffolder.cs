@@ -44,7 +44,7 @@ public class Scaffolder
     var dayWithoutLeadingZeroes = int.Parse(Day, NumberStyles.Any);
 
     var problemStatement = await context.OpenAsync(new Url(baseUrl, $"{Year}/day/{dayWithoutLeadingZeroes}"));
-    return problemStatement.QuerySelector("code")!.InnerHtml;
+    return problemStatement.QuerySelector("pre code")!.InnerHtml;
   }
 
   private async Task<string> GetInput(IBrowsingContext context)
