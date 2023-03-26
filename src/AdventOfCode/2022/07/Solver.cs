@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace AdventOfCode.Y2022.D07;
 
@@ -68,7 +69,8 @@ internal class Solver : ISolver
 
 public abstract class FileSystemEntry
 {
-  public string Name { get; init; }
+  [Required]
+  public required string Name { get; init; }
   public Directory? Parent { get; set; }
   public abstract int Size { get; }
 
