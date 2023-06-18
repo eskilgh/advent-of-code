@@ -1,0 +1,4 @@
+{
+  "dotnet.defaultSolution": "AdventOfCode.sln",
+  "FSharp.suggestGitignore": false
+}
