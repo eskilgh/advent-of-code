@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "AdventOfCode": {
+      "commandName": "Project",
+      "commandLineArgs": "run 2023/01",
+      "workingDirectory": "C:\\Users\\eskil\\source\\repos\\advent-of-code\\src\\AdventOfCode"
+    }
+  }
+}
