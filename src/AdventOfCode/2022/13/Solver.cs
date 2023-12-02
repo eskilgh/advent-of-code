@@ -26,15 +26,15 @@ internal class Solver : ISolver
     var r = right as JsonArray ?? new JsonArray((int)right);
 
     return Enumerable.Zip(l, r)
-      .Select(pair => ComparePacketPair(pair.First, pair.Second))
+      .Select(pair => ComparePacketPair(pair.First!, pair.Second!))
       .FirstOrDefault(result => result != 0, l.Count - r.Count);
   }
 
   public string PartTwo(string input)
   {
     var parsed = ParseInput(input);
-    var dividerA = JsonNode.Parse("[[2]]");
-    var dividerB = JsonNode.Parse("[[6]]");
+    var dividerA = JsonNode.Parse("[[2]]")!;
+    var dividerB = JsonNode.Parse("[[6]]")!;
     parsed.Add(dividerA);
     parsed.Add(dividerB);
 
@@ -52,7 +52,7 @@ internal class Solver : ISolver
     return input
       .Split("\n")
       .Where(line => !string.IsNullOrEmpty(line))
-      .Select(line => JsonNode.Parse(line))
+      .Select(line => JsonNode.Parse(line)!)
       .ToList();
   }
 }
