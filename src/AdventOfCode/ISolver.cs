@@ -1,5 +1,5 @@
 internal interface ISolver
 {
-  string PartOne(string input);
-  string PartTwo(string input);
+    string PartOne(string input);
+    string PartTwo(string input);
 }
