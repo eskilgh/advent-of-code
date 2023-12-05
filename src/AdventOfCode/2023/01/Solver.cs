@@ -84,12 +84,7 @@ internal class Solver : ISolver
                 { "eight", 8 }
             };
 
-        if (
-            threeLetters.TryGetValue(
-                Substring(line, index, 3, direction),
-                out var threeLetterNumber
-            )
-        )
+        if (threeLetters.TryGetValue(Substring(line, index, 3, direction), out var threeLetterNumber))
             return threeLetterNumber;
         if (fourLetters.TryGetValue(Substring(line, index, 4, direction), out var fourLetterNumber))
             return fourLetterNumber;
@@ -100,7 +95,7 @@ internal class Solver : ISolver
     }
 
     private string Substring(string line, int index, int length, Direction direction)
-    {        
+    {
         return direction switch
         {
             Direction.Right => line.Substring(index, Math.Min(length, line.Length - index)),
