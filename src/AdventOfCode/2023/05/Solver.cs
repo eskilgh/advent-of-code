@@ -45,9 +45,7 @@ internal class Solver : ISolver
 
     public string PartTwo(string input)
     {
-
         var inputSections = input.Split("\n\n");
-
         var seedRanges = inputSections[0]
             .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)[1..]
             .Select(long.Parse)
@@ -62,20 +60,14 @@ internal class Solver : ISolver
             var newLocationRanges = new List<long[]>();
             foreach (var locationRange in currentLocationRanges)
             {
-                try
-                {
-                    newLocationRanges.AddRange(MapToNewLocations(locationRange[0], locationRange[1], map));
-                } catch (StackOverflowException ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                }
+                newLocationRanges.AddRange(MapToNewLocations(locationRange[0], locationRange[1], map));
             }
             currentLocationRanges = newLocationRanges;
         }
         return currentLocationRanges.Min(x => x[0]).ToString();
     }
 
-    public static List<long[]> MapToNewLocations(long location, long length, long[][] map)
+    public static List<long[]> MapToNewLocations(long originalLocation, long originalLength, long[][] map)
     {
         var newLocations = new List<long[]>();
         var matchingMapping = map.FirstOrDefault(mapping =>
@@ -83,19 +75,18 @@ internal class Solver : ISolver
             var destination = mapping[0];
             var source = mapping[1];
             var range = mapping[2];
-            if (source + range < location)
-                return false;
-            if (location + length < source)
-                return false;
-            return true;
 
-            //return location <= source && source < (location + length)
-            //|| (location + length) >= (source + range) && location < (source + range) && (source + range) <= (location + length);
+            if (originalLocation <= source && source < (originalLocation + originalLength))
+                return true;
+            if (source <= originalLocation && originalLocation < (source + range))
+                return true;
+
+            return false;
         });
 
         if (matchingMapping is null)
         {
-            newLocations.Add(new long[] { location, length });
+            newLocations.Add(new long[] { originalLocation, originalLength });
             return newLocations;
         }
 
@@ -103,19 +94,23 @@ internal class Solver : ISolver
         var source = matchingMapping[1];
         var range = matchingMapping[2];
 
-        var leftLength = source - location;
+        var leftLength = Math.Max(source - originalLocation, 0);
         if (leftLength > 0)
         {
-            newLocations.AddRange(MapToNewLocations(location, leftLength, map));
+            newLocations.AddRange(MapToNewLocations(originalLocation, leftLength, map));
         }
 
-        var rightLength = location + length - source - range;
+        var rightLength = Math.Max(originalLocation + originalLength - (source + range), 0);
         if (rightLength > 0)
         {
-            newLocations.AddRange(MapToNewLocations(location + length - rightLength - 1, rightLength, map));
+            var rightStart = originalLocation + originalLength - rightLength;
+            newLocations.AddRange(MapToNewLocations(rightStart, rightLength, map));
         }
-        var midLength = length - Math.Max(leftLength, 0) - Math.Max(rightLength, 0);
-        newLocations.Add(new long[] { destination, midLength });
+        var midLength = originalLength - leftLength - rightLength;
+        var midStart = originalLocation <= source
+            ? destination
+            : destination + originalLocation - source;
+        newLocations.Add(new long[] { midStart, midLength });
         return newLocations;
     }
 }
