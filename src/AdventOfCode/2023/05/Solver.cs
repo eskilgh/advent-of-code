@@ -6,7 +6,10 @@ internal class Solver : ISolver
     {
         var inputSections = input.Split("\n\n");
 
-        var seeds = inputSections[0].Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)[1..].Select(long.Parse).ToArray();
+        var seeds = inputSections[0]
+            .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)[1..]
+            .Select(long.Parse)
+            .ToArray();
         var maps = inputSections[1..].Select(ParseMap);
 
         var locationNumbers = new long[seeds.Length];
@@ -17,17 +20,20 @@ internal class Solver : ISolver
             var currentLocation = locationNumbers[i];
             foreach (var map in maps)
             {
-                var matchingMapping = map.FirstOrDefault(mapping =>
-                {
-                    var destination = mapping[0];
-                    var source = mapping[1];
-                    var range = mapping[2];
-                    return source <= currentLocation && currentLocation < source + range;
-                }, new long[] { 0, 0, 0 });
+                var matchingMapping = map.FirstOrDefault(
+                    mapping =>
+                    {
+                        var destination = mapping[0];
+                        var source = mapping[1];
+                        var range = mapping[2];
+                        return source <= currentLocation && currentLocation < source + range;
+                    },
+                    new long[] { 0, 0, 0 }
+                );
 
                 var destination = matchingMapping[0];
                 var source = matchingMapping[1];
-                currentLocation = destination + currentLocation - source;   
+                currentLocation = destination + currentLocation - source;
             }
             locationNumbers[i] = currentLocation;
         }
@@ -37,10 +43,7 @@ internal class Solver : ISolver
 
     public static long[][] ParseMap(string input)
     {
-        return input
-            .Split('\n')[1..]
-            .Select(line => line.Split(' ').Select(long.Parse).ToArray())
-            .ToArray();
+        return input.Split('\n')[1..].Select(line => line.Split(' ').Select(long.Parse).ToArray()).ToArray();
     }
 
     public string PartTwo(string input)
@@ -107,9 +110,7 @@ internal class Solver : ISolver
             newLocations.AddRange(MapToNewLocations(rightStart, rightLength, map));
         }
         var midLength = originalLength - leftLength - rightLength;
-        var midStart = originalLocation <= source
-            ? destination
-            : destination + originalLocation - source;
+        var midStart = originalLocation <= source ? destination : destination + originalLocation - source;
         newLocations.Add(new long[] { midStart, midLength });
         return newLocations;
     }

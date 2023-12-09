@@ -6,10 +6,13 @@ internal class Solver : ISolver
     {
         var lines = input.Split('\n');
         var hands = lines
-            .Select((line, i) => {
-                var ss = line.Split(' ');
-                return new HandPartOne(ss[0].Select(c => new CardPartOne(c)).ToArray(), int.Parse(ss[1]));
-            })
+            .Select(
+                (line, i) =>
+                {
+                    var ss = line.Split(' ');
+                    return new HandPartOne(ss[0].Select(c => new CardPartOne(c)).ToArray(), int.Parse(ss[1]));
+                }
+            )
             .ToList();
 
         hands.Sort();
@@ -17,15 +20,18 @@ internal class Solver : ISolver
         var winnings = hands.Select((hand, i) => hand.Bid * (i + 1));
         return winnings.Sum().ToString();
     }
-    
+
     public string PartTwo(string input)
     {
         var lines = input.Split('\n');
         var hands = lines
-            .Select((line, i) => {
-                var ss = line.Split(' ');
-                return new Hand(ss[0].Select(c => new Card(c)).ToArray(), int.Parse(ss[1]));
-            })
+            .Select(
+                (line, i) =>
+                {
+                    var ss = line.Split(' ');
+                    return new Hand(ss[0].Select(c => new Card(c)).ToArray(), int.Parse(ss[1]));
+                }
+            )
             .ToList();
 
         hands.Sort();
@@ -41,11 +47,13 @@ public class Hand : IComparable
     public HandType HandType { get; init; }
     public int Bid { get; init; }
 
-    public Hand(Card[] cards, int bid) : this(cards, bid, GetHandType(cards)) {}
+    public Hand(Card[] cards, int bid)
+        : this(cards, bid, GetHandType(cards)) { }
 
     protected Hand(Card[] cards, int bid, HandType handType)
     {
-        if (cards.Length != 5) throw new ArgumentOutOfRangeException(nameof(cards), "Must be length 5");
+        if (cards.Length != 5)
+            throw new ArgumentOutOfRangeException(nameof(cards), "Must be length 5");
         Cards = cards;
         Bid = bid;
         HandType = handType;
@@ -71,7 +79,7 @@ public class Hand : IComparable
                 cardCount[card.Value] = 1;
             }
         }
-        
+
         if (jokersCount == 0)
         {
             return cardCount.Keys.Count switch
@@ -87,7 +95,7 @@ public class Hand : IComparable
             };
         }
 
-        var maxMatchingNonJokers = cardCount.Count > 0 ?  cardCount.Values.Max() : 0;
+        var maxMatchingNonJokers = cardCount.Count > 0 ? cardCount.Values.Max() : 0;
         return (maxMatchingNonJokers + jokersCount) switch
         {
             5 => HandType.FiveOfAKind,
@@ -101,7 +109,8 @@ public class Hand : IComparable
 
     public int CompareTo(object? obj)
     {
-        if (obj is null) return 1;
+        if (obj is null)
+            return 1;
 
         if (obj is not Hand other)
             throw new ArgumentException($"Is not a {nameof(Hand)}", nameof(obj));
@@ -125,6 +134,7 @@ public record Card(char Value) : IComparable
 {
     private static readonly char[] CardOrder = { 'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A' };
     private int? _index;
+
     public virtual int Index()
     {
         if (_index.HasValue)
@@ -133,15 +143,16 @@ public record Card(char Value) : IComparable
         _index = Array.IndexOf(CardOrder, Value);
         return _index.Value;
     }
-    
+
     public int CompareTo(object? obj)
     {
-        if (obj is null) return 1;
+        if (obj is null)
+            return 1;
 
         if (obj is not Card other)
             throw new ArgumentException($"Is not a {nameof(Card)}", nameof(obj));
 
-        if (Index()> other.Index())
+        if (Index() > other.Index())
             return 1;
         if (Index() < other.Index())
             return -1;
@@ -154,6 +165,7 @@ public record CardPartOne(char Value) : Card(Value)
 {
     private static readonly char[] CardOrder = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
     private int? _index;
+
     public override int Index()
     {
         if (_index.HasValue)
@@ -166,12 +178,13 @@ public record CardPartOne(char Value) : Card(Value)
 
 public class HandPartOne : Hand
 {
-    public HandPartOne(CardPartOne[] cards, int bid) : base(cards, bid, GetHandType(cards)) { }
+    public HandPartOne(CardPartOne[] cards, int bid)
+        : base(cards, bid, GetHandType(cards)) { }
 
     private static HandType GetHandType(CardPartOne[] cards)
     {
         var cardCount = new Dictionary<char, int>();
-        foreach(var card in cards)
+        foreach (var card in cards)
         {
             if (cardCount.ContainsKey(card.Value))
                 cardCount[card.Value]++;
@@ -197,11 +210,10 @@ public class HandPartOne : Hand
 public enum HandType
 {
     HighCard,
-    OnePair, 
-    TwoPair, 
+    OnePair,
+    TwoPair,
     ThreeOfAKind,
     FullHouse,
     FourOfAKind,
     FiveOfAKind,
 }
-

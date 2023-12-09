@@ -5,8 +5,14 @@ internal class Solver : ISolver
     public string PartOne(string input)
     {
         var lines = input.Split('\n');
-        var raceTimes = lines[0].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[1..].Select(int.Parse).ToArray();
-        var recordedDistances = lines[1].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[1..].Select(int.Parse).ToArray();
+        var raceTimes = lines[0]
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[1..]
+            .Select(int.Parse)
+            .ToArray();
+        var recordedDistances = lines[1]
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[1..]
+            .Select(int.Parse)
+            .ToArray();
         var numWaysToWin = new int[raceTimes.Length];
         for (var i = 0; i < raceTimes.Length; i++)
         {
@@ -30,8 +36,18 @@ internal class Solver : ISolver
     public string PartTwo(string input)
     {
         var lines = input.Split('\n');
-        var raceTime = long.Parse(string.Join("", lines[0].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[1..]));
-        var distance = long.Parse(string.Join("", lines[1].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[1..]));
+        var raceTime = long.Parse(
+            string.Join(
+                "",
+                lines[0].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[1..]
+            )
+        );
+        var distance = long.Parse(
+            string.Join(
+                "",
+                lines[1].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[1..]
+            )
+        );
 
         // Numerical estimate of analytic second degree polynomial solution
         var t_1 = raceTime / 2 - Math.Sqrt(Math.Pow(raceTime, 2) - 4 * distance) / 2;
