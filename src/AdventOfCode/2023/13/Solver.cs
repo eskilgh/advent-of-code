@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Data;
 using AngleSharp.Dom;
 
 namespace AdventOfCode.Y2023.D13;
@@ -7,19 +8,17 @@ internal class Solver : ISolver
 {
     public string PartOne(string input)
     {
-        return "";
-        /*IEnumerable<char[][]> patterns = ParsePatterns(input);
-
-        return patterns
+        return ParsePatterns(input)
             .Select(pattern =>
             {
-                var horizontalReflectionLine = FindHorizontalReflectionLine(pattern);
-                if (horizontalReflectionLine > 0)
+                var horizontalReflectionLine = FindHorizontalReflectionLine(pattern, targetSmudges: 0);
+                if (horizontalReflectionLine > -1)
                     return horizontalReflectionLine * 100;
-                return FindVerticalReflectionLine(pattern);
+
+                return FindVerticalReflectionLine(pattern, targetSmudges: 0);
             })
             .Sum()
-            .ToString();*/
+            .ToString();
     }
 
     private static IEnumerable<char[][]> ParsePatterns(string input)
@@ -27,94 +26,68 @@ internal class Solver : ISolver
         return input.Split("\n\n").Select(x => x.Split('\n').Select(line => line.ToCharArray()).ToArray());
     }
 
-    static int FindVerticalReflectionLine(char[][] pattern)
+    public string PartTwo(string input)
     {
-        return PairwiseEqualCols(pattern).FirstOrDefault(candidate => IsReflectionCol(pattern, candidate), -2) + 1;
+        return ParsePatterns(input)
+            .Select(pattern =>
+            {
+                var horizontalReflectionLine = FindHorizontalReflectionLine(pattern, targetSmudges: 1);
+                if (horizontalReflectionLine > -1)
+                    return horizontalReflectionLine * 100;
+
+                return FindVerticalReflectionLine(pattern, targetSmudges: 1);
+            })
+            .Sum()
+            .ToString();
     }
 
-    static int FindHorizontalReflectionLine(char[][] pattern)
-    {
-        return PairwiseEqualRows(pattern).FirstOrDefault(candidate => IsReflectionRow(pattern, candidate), -2) + 1;
-    }
-
-    static bool IsReflectionRow(char[][] pattern, int candidate)
-    {
-        var iters = Math.Min(candidate, pattern.Length - candidate - 2);
-        for (var i = 1; i <= iters; i++)
-        {
-            if (!pattern[candidate - i].SequenceEqual(pattern[candidate + 1 + i]))
-                return false;
-        }
-        return true;
-    }
-
-    static bool IsReflectionCol(char[][] pattern, int candidate)
-    {
-        var iters = Math.Min(candidate, pattern[0].Length - candidate - 2);
-        for (var i = 1; i <= iters; i++)
-        {
-            if (!pattern.All(row => row[candidate - i] == row[candidate + i + 1]))
-                return false;
-        }
-        return true;
-    }
-
-    static IEnumerable<int> PairwiseEqualRows(char[][] pattern)
+    static int FindHorizontalReflectionLine(char[][] pattern, int targetSmudges = 0)
     {
         for (var row = 0; row < pattern.Length - 1; row++)
         {
-            if (pattern[row].SequenceEqual(pattern[row + 1]))
-                yield return row;
+            if (EvaluateHorizontal(pattern, row, targetSmudges: targetSmudges))
+                return row + 1;
         }
+        return -1;
     }
 
-    static IEnumerable<int> PairwiseEqualCols(char[][] pattern)
+    static int FindVerticalReflectionLine(char[][] pattern, int targetSmudges = 0)
     {
         for (var col = 0; col < pattern[0].Length - 1; col++)
         {
-            if (pattern.All(row => row[col] == row[col + 1]))
-                yield return col;
+            if (EvaluateVertical(pattern, col, targetSmudges: targetSmudges))
+                return col + 1;
         }
+        return -1;
     }
 
-    public string PartTwo(string input)
+    static bool EvaluateHorizontal(char[][] pattern, int candidate, int targetSmudges)
     {
-        var test = ".####.##.\n#####.##.";
-        var patterns = ParsePatterns(test);
-
-        foreach (var pattern in patterns)
+        var iters = Math.Min(candidate, pattern.Length - candidate - 2) + 1;
+        var i = 0;
+        var smudges = 0;
+        while ((candidate - i) >= 0 && (candidate + i + 1) < pattern.Length)
         {
-            foreach (var item in FindHorizontalCandidates(pattern))
-            {
-                Console.WriteLine(item);
-            }
-            ;
+            smudges += pattern[candidate - i].Zip(pattern[candidate + i + 1]).Count(pair => pair.First != pair.Second);
+            if (smudges > targetSmudges)
+                return false;
+            i++;
         }
-        return "Not available";
+        return smudges == targetSmudges;
     }
 
-    static IEnumerable<uint> FindHorizontalCandidates(char[][] pattern)
+    static bool EvaluateVertical(char[][] pattern, int candidate, int targetSmudges)
     {
-        for (var row = 0; row < pattern.Length - 1; row++)
+        var iters = Math.Min(candidate, pattern.Length - candidate - 2) + 1;
+        var i = 0;
+        var smudges = 0;
+        while ((candidate - i) >= 0 && (candidate + i + 1) < pattern[0].Length)
         {
-            var iters = Math.Min(row, pattern.Length - row - 2);
-            var height = (1 + iters) * 2;
-            var flipped = FindFlippedBit(pattern, row - iters, row + iters + 2);
-            if (flipped > 0)
-                yield return flipped;
+            smudges += pattern.Count(row => row[candidate - i] != row[candidate + i + 1]);
+            if (smudges > targetSmudges)
+                return false;
+            i++;
         }
-        yield break;
-    }
-
-    static uint FindFlippedBit(char[][] pattern, int startRow, int endRow)
-    {
-        var nums = pattern[startRow..endRow].Select(
-            cs =>
-                Convert.ToUInt32(string.Join("", cs.Select(c => c == '#' ? '1' : '0')).PadLeft(pattern[0].Length, '0'))
-        );
-        var xored = nums.Aggregate((a, b) => a ^ b);
-        Console.WriteLine(Convert.ToString(xored, 2));
-        var isExactlyOneBitFlipped = (xored & (xored - 1)) == 0;
-        return isExactlyOneBitFlipped ? xored : 0;
+        return smudges == targetSmudges;
     }
 }
