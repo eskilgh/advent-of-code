@@ -34,6 +34,8 @@ public readonly struct Vector2d(int x, int y)
 
     public override int GetHashCode() => (X, Y).GetHashCode();
 
+    public Vector2d ScalarMultiply(int scalar) => new Vector2d(X * scalar, Y * scalar);
+
     public static bool operator ==(Vector2d lhs, Vector2d rhs) => lhs.Equals(rhs);
 
     public static bool operator !=(Vector2d lhs, Vector2d rhs) => !(lhs == rhs);

@@ -11,4 +11,20 @@ internal static class Extensions
             return fallback;
         return m[row][col];
     }
+
+    public static IEnumerable<TResult> Pairwise<TSource, TResult>(
+        this IEnumerable<TSource> source,
+        Func<TSource, TSource, TResult> resultSelector
+    )
+    {
+        using var it = source.GetEnumerator();
+
+        if (!it.MoveNext())
+            yield break;
+
+        var previous = it.Current;
+
+        while (it.MoveNext())
+            yield return resultSelector(previous, previous = it.Current);
+    }
 }
