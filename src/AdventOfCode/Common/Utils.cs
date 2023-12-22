@@ -4,7 +4,6 @@ namespace AdventOfCode.Common;
 
 public static class Utils
 {
-
     public static void Print(this char[][] m)
     {
         Print(m, new HashSet<Vector2d>());
@@ -23,5 +22,15 @@ public static class Utils
             sb.AppendLine();
         }
         Console.WriteLine(sb.ToString());
+    }
+
+    public static (int, int) IndexOf2d(this char[][] m, char value)
+    {
+        for (var row = 0; row < m.Length; row++)
+        for (var col = 0; col < m[row].Length; col++)
+            if (m[row][col] == value)
+                return (row, col);
+
+        return (-1, -1);
     }
 }

@@ -27,6 +27,8 @@ public readonly struct Vector2d(int x, int y)
         => Math.Sqrt(SqEuclidianDistance(a, b));
     public static int ManhattanDistance(Vector2d a, Vector2d b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
     public int ManhattanDistance(Vector2d other) => ManhattanDistance(this, other);
+    /// <returns>True if X and Y fall within the inclusive ranges. False otherwise</returns>
+    public bool IsOutOfBounds(int xMin, int xMax, int yMin, int yMax) => !(xMin <= X && X <= xMax && yMin <= Y && Y <= yMax);
 
     public override bool Equals(object? obj) => obj is Vector2d other && Equals(other);
 
