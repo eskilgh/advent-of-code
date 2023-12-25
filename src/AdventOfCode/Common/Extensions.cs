@@ -1,4 +1,7 @@
-﻿namespace AdventOfCode.Common;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
+
+namespace AdventOfCode.Common;
 
 internal static class Extensions
 {
@@ -26,5 +29,21 @@ internal static class Extensions
 
         while (it.MoveNext())
             yield return resultSelector(previous, previous = it.Current);
+    }
+
+    public static string ToPrettyString(this char[][] m, ISet<Vector2d>? visited = default, char visitedFill = '#')
+    {
+        var sb = new StringBuilder();
+
+        for (var row = 0; row < m.Length; row++)
+        {
+            for (var col = 0; col < m[row].Length; col++)
+            {
+                var c = visited?.Contains(new Vector2d(col, row)) ?? false ? visitedFill : m[row][col];
+                sb.Append(c);
+            }
+            sb.AppendLine();
+        }
+        return sb.ToString();
     }
 }
