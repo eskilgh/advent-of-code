@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace AdventOfCode.Verbs.Run;
@@ -24,13 +25,20 @@ public class Runner
         var solver = GetSolver();
         var filePath = exampleMode ? ExampleInputFilePath : InputFilePath;
         var input = await GetNormalizedInput(filePath);
+
+        var stopwatch = Stopwatch.StartNew();
         var partOneAnswer = solver.PartOne(input);
+        stopwatch.Stop();
+        var elapsedPartOne = stopwatch.Elapsed;
+        stopwatch.Restart();
         var partTwoAnswer = solver.PartTwo(input);
+        stopwatch.Stop();
+        var elapsedPartTwo = stopwatch.Elapsed;
 
         Console.WriteLine();
-        Console.WriteLine($"{Year}/{Day} Answer {(exampleMode ? "(example) " : "")}part one:");
+        Console.WriteLine($"{Year}/{Day} Part one {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartOne.Milliseconds}ms):");
         Console.WriteLine(partOneAnswer);
-        Console.WriteLine($"{Year}/{Day} Answer {(exampleMode ? "(example) " : "")}part two:");
+        Console.WriteLine($"{Year}/{Day} Part one {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartTwo.Milliseconds}ms):");
         Console.WriteLine(partTwoAnswer);
     }
 
