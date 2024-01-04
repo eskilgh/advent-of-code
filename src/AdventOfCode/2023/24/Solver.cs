@@ -8,7 +8,7 @@ namespace AdventOfCode.Y2023.D24;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var hails = input
             .Split('\n')
@@ -40,7 +40,7 @@ internal class Solver : ISolver
                     .Select(p => p!.Value)
         );
 
-        return futureIntersections.Count().ToString();
+        return futureIntersections.Count();
     }
 
     static Vector2? FutureIntersection((Vector2 p, Vector2 v) first, (Vector2 p, Vector2 v) second)
@@ -60,7 +60,7 @@ internal class Solver : ISolver
 
     static BigFloat CrossProduct(Vector2 a, Vector2 b) => a.X * b.Y - b.X * a.Y;
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var hails = input
             .Split('\n')

@@ -2,14 +2,14 @@ namespace AdventOfCode.Y2022.D01;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
-        return GetCalories(input).Max().ToString();
+        return GetCalories(input).Max();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
-        return GetCalories(input).Order().TakeLast(3).Sum().ToString();
+        return GetCalories(input).Order().TakeLast(3).Sum();
     }
 
     public static IEnumerable<int> GetCalories(string input)

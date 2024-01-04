@@ -9,7 +9,7 @@ namespace AdventOfCode.Y2023.D10;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
         var (row, col) = IndexOf2d(m, 'S');
@@ -30,10 +30,10 @@ internal class Solver : ISolver
             direction = NextDirection(current, direction);
             length++;
         }
-        return (length / 2).ToString();
+        return length / 2;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
         var (row, col) = IndexOf2d(m, 'S');
@@ -55,7 +55,7 @@ internal class Solver : ISolver
             direction = NextDirection(current, direction);
         }
 
-        return CalculateEnclosedArea(m, seen).ToString();
+        return CalculateEnclosedArea(m, seen);
     }
 
     private int CalculateEnclosedArea(char[][] m, HashSet<(int Row, int Col)> seen)

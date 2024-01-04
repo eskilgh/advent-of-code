@@ -6,7 +6,7 @@ namespace AdventOfCode.Y2023.D22;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var bricks = input.Split('\n').Select((line, i) =>
         {
@@ -24,7 +24,7 @@ internal class Solver : ISolver
 
 
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         return "Not available";
     }

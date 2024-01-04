@@ -5,13 +5,13 @@ namespace AdventOfCode.Y2022.D07;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var root = ParseFileSystem(input);
-        return root.Where(entry => entry is Directory && entry.Size < 100000).Sum(dir => dir.Size).ToString();
+        return root.Where(entry => entry is Directory && entry.Size < 100000).Sum(dir => dir.Size);
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var root = ParseFileSystem(input);
         var unusedSpace = 70000000 - root.Size;
@@ -20,8 +20,7 @@ internal class Solver : ISolver
             .Aggregate(
                 int.MaxValue,
                 (candidate, current) => current.Size < minCandidateSize ? candidate : Math.Min(current.Size, candidate)
-            )
-            .ToString();
+            );
     }
 
     private static Directory ParseFileSystem(string input)

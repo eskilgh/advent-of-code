@@ -4,14 +4,14 @@ namespace AdventOfCode.Y2023.D14;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
         TiltNorth(m);
-        return m.Select((row, i) => row.Count(c => c == 'O') * (row.Length - i)).Sum().ToString();
+        return m.Select((row, i) => row.Count(c => c == 'O') * (row.Length - i)).Sum();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
 
@@ -29,7 +29,7 @@ internal class Solver : ISolver
         for (var k = 0; k < itersLeft; k++)
             Cycle(m);
 
-        return m.Select((row, i) => row.Count(c => c == 'O') * (row.Length - i)).Sum().ToString();
+        return m.Select((row, i) => row.Count(c => c == 'O') * (row.Length - i)).Sum();
     }
 
     static void Cycle(char[][] m)

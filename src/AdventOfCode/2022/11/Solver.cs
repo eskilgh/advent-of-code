@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2022.D11;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var monkeys = input.Split("\n\n").Select(ParseMonkey).ToArray();
         foreach (var _ in Enumerable.Range(0, 20))
@@ -14,10 +14,10 @@ internal class Solver : ISolver
             .OrderByDescending(numInspections => numInspections)
             .Take(2)
             .Aggregate(1, (a, b) => a * b);
-        return monkeyBusinessLevel.ToString();
+        return monkeyBusinessLevel;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var maxValue = input
             .Split("\n")
@@ -34,7 +34,7 @@ internal class Solver : ISolver
             .OrderByDescending(numInspections => numInspections)
             .Take(2)
             .Aggregate(1, (a, b) => a * b);
-        return monkeyBusinessLevel.ToString();
+        return monkeyBusinessLevel;
     }
 
     private static void DoRound(Monkey[] monkeys, int maxValue, bool shouldDivide)

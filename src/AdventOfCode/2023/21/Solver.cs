@@ -5,7 +5,7 @@ namespace AdventOfCode.Y2023.D21;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
         var height = m.Length;
@@ -44,11 +44,10 @@ internal class Solver : ISolver
 
         var numGardenPlots = m.Sum(cs => cs.Count(c => c is '.' or 'S'));
         var possibleLocationsAfterNSteps = seen.Where(kvp => kvp.Value % 2 == numStepsModTwo).Select(kvp => kvp.Key).ToHashSet();
-        //Print(m, possibleLocationsAfterNSteps);
-        return possibleLocationsAfterNSteps.Count.ToString();
+        return possibleLocationsAfterNSteps.Count;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         return "Not available";
     }

@@ -6,7 +6,7 @@ namespace AdventOfCode.Y2023.D13;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         return ParsePatterns(input)
             .Select(pattern =>
@@ -17,8 +17,7 @@ internal class Solver : ISolver
 
                 return FindVerticalReflectionLine(pattern, targetSmudges: 0);
             })
-            .Sum()
-            .ToString();
+            .Sum();
     }
 
     private static IEnumerable<char[][]> ParsePatterns(string input)
@@ -26,7 +25,7 @@ internal class Solver : ISolver
         return input.Split("\n\n").Select(x => x.Split('\n').Select(line => line.ToCharArray()).ToArray());
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         return ParsePatterns(input)
             .Select(pattern =>
@@ -37,8 +36,7 @@ internal class Solver : ISolver
 
                 return FindVerticalReflectionLine(pattern, targetSmudges: 1);
             })
-            .Sum()
-            .ToString();
+            .Sum();
     }
 
     static int FindHorizontalReflectionLine(char[][] pattern, int targetSmudges = 0)

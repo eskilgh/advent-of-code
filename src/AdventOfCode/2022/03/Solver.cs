@@ -2,19 +2,18 @@ namespace AdventOfCode.Y2022.D03;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         return input
             .Split("\n")
             .Select(line => FindDuplicate(line[0..(line.Length / 2)], line[(line.Length / 2)..]))
             .Select(ToPriority)
-            .Sum()
-            .ToString();
+            .Sum();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
-        return input.Split("\n").Chunk(3).Select(FindDuplicate).Select(ToPriority).Sum().ToString();
+        return input.Split("\n").Chunk(3).Select(FindDuplicate).Select(ToPriority).Sum();
     }
 
     static char FindDuplicate(params string[] ss) =>

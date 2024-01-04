@@ -4,7 +4,7 @@ namespace AdventOfCode.Y2022.D10;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var lines = input.Split("\n").ToArray();
         var value = 1;
@@ -37,12 +37,12 @@ internal class Solver : ISolver
             cycle++;
             value += val;
         }
-        return sumSignalStrengths.ToString();
+        return sumSignalStrengths;
     }
 
     private static bool Qualifes(int cycle) => cycle == 20 || cycle > 20 && (cycle - 20) % 40 == 0;
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var width = 40;
         var sb = new StringBuilder();

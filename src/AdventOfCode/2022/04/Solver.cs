@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2022.D04;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         return input
             .Split("\n")
@@ -15,11 +15,10 @@ internal class Solver : ISolver
                 return new int[] { leftParsed[0], leftParsed[1], rightParsed[0], rightParsed[1] };
             })
             .Where(ns => IsFullyContained(ns[0], ns[1], ns[2], ns[3]))
-            .Count()
-            .ToString();
+            .Count();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         return input
             .Split("\n")
@@ -32,8 +31,7 @@ internal class Solver : ISolver
                 return new int[] { leftParsed[0], leftParsed[1], rightParsed[0], rightParsed[1] };
             })
             .Where(ns => Overlaps(ns[0], ns[1], ns[2], ns[3]))
-            .Count()
-            .ToString();
+            .Count();
     }
 
     private bool IsFullyContained(int leftMin, int leftMax, int rightMin, int rightMax) =>

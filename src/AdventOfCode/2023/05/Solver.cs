@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2023.D05;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var inputSections = input.Split("\n\n");
 
@@ -38,7 +38,7 @@ internal class Solver : ISolver
             locationNumbers[i] = currentLocation;
         }
 
-        return locationNumbers.Min().ToString();
+        return locationNumbers.Min();
     }
 
     public static long[][] ParseMap(string input)
@@ -46,7 +46,7 @@ internal class Solver : ISolver
         return input.Split('\n')[1..].Select(line => line.Split(' ').Select(long.Parse).ToArray()).ToArray();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var inputSections = input.Split("\n\n");
         var seedRanges = inputSections[0]
@@ -67,7 +67,7 @@ internal class Solver : ISolver
             }
             currentLocationRanges = newLocationRanges;
         }
-        return currentLocationRanges.Min(x => x[0]).ToString();
+        return currentLocationRanges.Min(x => x[0]);
     }
 
     public static List<long[]> MapToNewLocations(long originalLocation, long originalLength, long[][] map)

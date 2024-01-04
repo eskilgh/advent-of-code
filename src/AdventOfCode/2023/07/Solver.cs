@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2023.D07;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var lines = input.Split('\n');
         var hands = lines
@@ -18,10 +18,10 @@ internal class Solver : ISolver
         hands.Sort();
 
         var winnings = hands.Select((hand, i) => hand.Bid * (i + 1));
-        return winnings.Sum().ToString();
+        return winnings.Sum();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var lines = input.Split('\n');
         var hands = lines
@@ -37,7 +37,7 @@ internal class Solver : ISolver
         hands.Sort();
 
         var winnings = hands.Select((hand, i) => hand.Bid * (i + 1));
-        return winnings.Sum().ToString();
+        return winnings.Sum();
     }
 }
 

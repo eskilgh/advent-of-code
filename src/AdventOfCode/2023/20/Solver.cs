@@ -5,7 +5,7 @@ namespace AdventOfCode.Y2023.D20;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var modules = input
             .Split('\n')
@@ -55,10 +55,10 @@ internal class Solver : ISolver
                 }
             }
         }
-        return (highPulsesSent * lowPulsesSent).ToString();
+        return highPulsesSent * lowPulsesSent;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         return "Not available";
     }

@@ -7,7 +7,7 @@ internal class Solver : ISolver
 {
     public static int count = 0;
 
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
 
@@ -15,10 +15,10 @@ internal class Solver : ISolver
         var pos = new Vector2d(0, 0);
         var visitedPositions = TraverseRec(m, pos, direction);
 
-        return visitedPositions.Count().ToString();
+        return visitedPositions.Count();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
 
@@ -49,8 +49,7 @@ internal class Solver : ISolver
                         _ => throw new ArgumentOutOfRangeException()
                     }
             )
-            .Max()
-            .ToString();
+            .Max();
     }
 
     static ISet<Vector2d> TraverseIter(char[][] m, Vector2d startPosition, Vector2d startDirection)

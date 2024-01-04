@@ -4,10 +4,10 @@ namespace AdventOfCode.Y2023.D01;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var answer = SumOfDigitsPartOne(input.Split('\n'));
-        return answer.ToString();
+        return answer;
     }
 
     private int SumOfDigitsPartOne(string[] lines)
@@ -26,9 +26,9 @@ internal class Solver : ISolver
             .Sum();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
-        return SumOfDigitsPartTwo(input.Split('\n')).ToString();
+        return SumOfDigitsPartTwo(input.Split('\n'));
     }
 
     private int SumOfDigitsPartTwo(string[] lines)

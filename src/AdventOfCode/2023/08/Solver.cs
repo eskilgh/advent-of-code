@@ -5,7 +5,7 @@ namespace AdventOfCode.Y2023.D08;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var lines = input.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         var instructions = lines[0];
@@ -37,10 +37,10 @@ internal class Solver : ISolver
             steps++;
         }
 
-        return steps.ToString();
+        return steps;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var lines = input.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         var instructions = lines[0];
@@ -77,8 +77,7 @@ internal class Solver : ISolver
                 return steps;
             })
             .Select(Convert.ToInt64)
-            .Aggregate(LCM)
-            .ToString();
+            .Aggregate(LCM);
     }
 
     static long LCM(long a, long b)

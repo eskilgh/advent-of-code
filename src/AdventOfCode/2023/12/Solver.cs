@@ -4,7 +4,7 @@ namespace AdventOfCode.Y2023.D12;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var lines = input.Split('\n');
         var conditions = lines
@@ -36,7 +36,7 @@ internal class Solver : ISolver
             }
         }
 
-        return permutationsPerConditions.Select(ps => ps.Count()).Sum().ToString();
+        return permutationsPerConditions.Select(ps => ps.Count()).Sum();
     }
 
     static List<List<(int pos, int groupSize)>> FindPerms(char[] cs, int[] groups)
@@ -98,7 +98,7 @@ internal class Solver : ISolver
         return possiblePermutations;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         return "Not available";
     }

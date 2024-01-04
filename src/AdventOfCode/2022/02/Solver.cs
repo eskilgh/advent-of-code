@@ -2,14 +2,14 @@ namespace AdventOfCode.Y2022.D02;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
-        return CalculateScorePartOne(input).ToString();
+        return CalculateScorePartOne(input);
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
-        return CalculateScorePartTwo(input).ToString();
+        return CalculateScorePartTwo(input);
     }
 
     private static int CalculateScorePartOne(string input)

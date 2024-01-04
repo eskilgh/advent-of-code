@@ -9,21 +9,21 @@ namespace AdventOfCode.Y2023.D18;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var instructions = input
             .Split('\n')
             .Select(line => line.Split(" ", StringSplitOptions.RemoveEmptyEntries))
             .Select(segments => (segments[0], int.Parse(segments[1])));
 
-        return LagoonLavaCapacity(instructions).ToString();
+        return LagoonLavaCapacity(instructions);
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var instructions = input.Split('\n').Select(line => line.Split("#")[1][0..^1]).Select(ParseHexadecimal);
 
-        return LagoonLavaCapacity(instructions).ToString();
+        return LagoonLavaCapacity(instructions);
     }
 
     static BigInteger LagoonLavaCapacity(IEnumerable<(string, int)> instructions)

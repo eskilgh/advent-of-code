@@ -2,14 +2,14 @@ namespace AdventOfCode.Y2022.D06;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
-        return FirstUniqueSequence(input, 4).ToString();
+        return FirstUniqueSequence(input, 4);
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
-        return FirstUniqueSequence(input, 14).ToString();
+        return FirstUniqueSequence(input, 14);
     }
 
     private static int FirstUniqueSequence(string text, int sequenceLength)

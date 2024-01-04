@@ -4,15 +4,11 @@ namespace AdventOfCode.Y2022.D13;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var parsed = ParseInput(input);
 
-        return parsed
-            .Chunk(2)
-            .Select((pair, i) => ComparePacketPair(pair[0], pair[1]) <= 0 ? i + 1 : 0)
-            .Sum()
-            .ToString();
+        return parsed.Chunk(2).Select((pair, i) => ComparePacketPair(pair[0], pair[1]) <= 0 ? i + 1 : 0).Sum();
     }
 
     private int ComparePacketPair(JsonNode left, JsonNode right)
@@ -31,7 +27,7 @@ internal class Solver : ISolver
             .FirstOrDefault(result => result != 0, l.Count - r.Count);
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var parsed = ParseInput(input);
         var dividerA = JsonNode.Parse("[[2]]")!;
@@ -41,10 +37,7 @@ internal class Solver : ISolver
 
         parsed.Sort((l, r) => ComparePacketPair(l, r));
 
-        return parsed
-            .Select((line, i) => line == dividerA || line == dividerB ? i + 1 : 1)
-            .Aggregate((a, b) => a * b)
-            .ToString();
+        return parsed.Select((line, i) => line == dividerA || line == dividerB ? i + 1 : 1).Aggregate((a, b) => a * b);
     }
 
     public static List<JsonNode> ParseInput(string input)

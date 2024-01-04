@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2023.D25;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var rawEdges = input
             .Split('\n')
@@ -30,12 +30,12 @@ internal class Solver : ISolver
                     graph[dest] = [src];
             }
         }
-        
-        var (minCut, s1Size, s2Size)= MinCut(graph);
+
+        var (minCut, s1Size, s2Size) = MinCut(graph);
         while (minCut != 3)
             (minCut, s1Size, s2Size) = MinCut(graph);
 
-        return (s1Size * s2Size).ToString();
+        return s1Size * s2Size;
     }
 
     (int size, int s1, int s2) MinCut(Dictionary<string, List<string>> graph)
@@ -50,10 +50,7 @@ internal class Solver : ISolver
             var v = g[u][r.Next(g[u].Count)];
 
             var mergedKey = $"{u}-{v}";
-            g[mergedKey] = [
-                .. g[u].Where(e => e != v),
-                .. g[v].Where(e => e != u)
-                ];
+            g[mergedKey] = [.. g[u].Where(e => e != v), .. g[v].Where(e => e != u)];
 
             foreach (var key in g.Keys)
             {
@@ -66,11 +63,9 @@ internal class Solver : ISolver
         }
 
         return (g.Values.First().Count, sizes[g.Keys.First()], sizes[g.Keys.Last()]);
-
-        
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         return "Not available";
     }

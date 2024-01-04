@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2022.D12;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var heightMap = input.Split("\n").Select(s => s.ToCharArray()).ToArray();
 
@@ -82,7 +82,7 @@ internal class Solver : ISolver
         };
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var heightMap = input.Split("\n").Select(s => s.ToCharArray()).ToArray();
 
@@ -93,7 +93,7 @@ internal class Solver : ISolver
             select (col.c, row.i, col.j)
         ).First();
 
-        return FindShortestPathLength(heightMap, new Position(start.i, start.j), ascending: false).ToString();
+        return FindShortestPathLength(heightMap, new Position(start.i, start.j), ascending: false);
     }
 }
 

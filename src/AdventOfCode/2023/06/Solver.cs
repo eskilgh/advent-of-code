@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2023.D06;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var lines = input.Split('\n');
         var raceTimes = lines[0]
@@ -25,7 +25,7 @@ internal class Solver : ISolver
             }
         }
 
-        return numWaysToWin.Aggregate((a, b) => a * b).ToString();
+        return numWaysToWin.Aggregate((a, b) => a * b);
     }
 
     private static int CalcDistance(int time, int maxTime)
@@ -33,7 +33,7 @@ internal class Solver : ISolver
         return (maxTime - time) * time;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var lines = input.Split('\n');
         var raceTime = long.Parse(
@@ -52,6 +52,6 @@ internal class Solver : ISolver
         // Numerical estimate of analytic second degree polynomial solution
         var t_1 = raceTime / 2 - Math.Sqrt(Math.Pow(raceTime, 2) - 4 * distance) / 2;
         var t_2 = raceTime / 2 + Math.Sqrt(Math.Pow(raceTime, 2) - 4 * distance) / 2;
-        return (Math.Ceiling(t_2) - Math.Floor(t_1)).ToString();
+        return (Math.Ceiling(t_2) - Math.Floor(t_1));
     }
 }

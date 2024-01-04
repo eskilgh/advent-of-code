@@ -2,14 +2,13 @@ namespace AdventOfCode.Y2023.D09;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         return input
             .Split('\n', StringSplitOptions.RemoveEmptyEntries)
             .Select(line => line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray())
             .Select(PredictNextValue)
-            .Sum()
-            .ToString();
+            .Sum();
     }
 
     private static int PredictNextValue(int[] history)
@@ -30,14 +29,13 @@ internal class Solver : ISolver
         return differences[^1] + GetDifferencesForwards(differences);
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         return input
             .Split('\n', StringSplitOptions.RemoveEmptyEntries)
             .Select(line => line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray())
             .Select(PredictPreviousValue)
-            .Sum()
-            .ToString();
+            .Sum();
     }
 
     private static int PredictPreviousValue(int[] history)

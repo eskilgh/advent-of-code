@@ -2,16 +2,16 @@ namespace AdventOfCode.Y2022.D08;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var matrix = ParseMatrix(input);
-        return CountVisibleTrees(matrix).ToString();
+        return CountVisibleTrees(matrix);
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var matrix = ParseMatrix(input);
-        return GetMaxScenicScore(matrix).ToString();
+        return GetMaxScenicScore(matrix);
     }
 
     private static int GetMaxScenicScore(int[][] matrix)

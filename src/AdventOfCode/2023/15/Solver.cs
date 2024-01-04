@@ -2,12 +2,12 @@ namespace AdventOfCode.Y2023.D15;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
-        return input.Split(',').Select(Hash).Sum().ToString();
+        return input.Split(',').Select(Hash).Sum();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var boxes = Enumerable.Range(0, 256).Select(_ => new List<string>()).ToArray();
         var instructions = input
@@ -45,7 +45,7 @@ internal class Solver : ISolver
             }
         }
 
-        return boxes.Select((box, i) => (1 + i) * box.Select((s, j) => (j + 1) * (s[^1] - '0')).Sum()).Sum().ToString();
+        return boxes.Select((box, i) => (1 + i) * box.Select((s, j) => (j + 1) * (s[^1] - '0')).Sum()).Sum();
     }
 
     int Hash(IEnumerable<char> cs)

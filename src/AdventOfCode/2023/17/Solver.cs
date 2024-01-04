@@ -4,22 +4,22 @@ namespace AdventOfCode.Y2023.D17;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var m = input.Split('\n').Select(line => line.Select(c => (c - '0')).ToArray()).ToArray();
 
         var start = new Vector2d(0, 0);
         var target = new Vector2d(m[0].Length - 1, m.Length - 1);
-        return FindPath(m, start, target, minMovesInDirection: 0, maxMovesInDirection: 3).ToString();
+        return FindPath(m, start, target, minMovesInDirection: 0, maxMovesInDirection: 3);
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var m = input.Split('\n').Select(line => line.Select(c => (c - '0')).ToArray()).ToArray();
 
         var start = new Vector2d(0, 0);
         var target = new Vector2d(m[0].Length - 1, m.Length - 1);
-        return FindPath(m, start, target, minMovesInDirection: 4, maxMovesInDirection: 10).ToString();
+        return FindPath(m, start, target, minMovesInDirection: 4, maxMovesInDirection: 10);
     }
 
     int FindPath(int[][] m, Vector2d start, Vector2d target, int minMovesInDirection, int maxMovesInDirection)

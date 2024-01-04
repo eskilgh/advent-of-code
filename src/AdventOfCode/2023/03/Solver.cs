@@ -4,12 +4,12 @@ namespace AdventOfCode.Y2023.D03;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var lines = input.Split('\n');
         var nums = ParseNumbers(lines);
 
-        return nums.Where(num => IsPartNumber(num.Row, num.Col, num.Length, lines)).Sum(num => num.Value).ToString();
+        return nums.Where(num => IsPartNumber(num.Row, num.Col, num.Length, lines)).Sum(num => num.Value);
     }
 
     private static IEnumerable<Number> ParseNumbers(string[] lines)
@@ -67,7 +67,7 @@ internal class Solver : ISolver
         return false;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var lines = input.Split('\n');
         var nums = ParseNumbers(lines);
@@ -93,8 +93,7 @@ internal class Solver : ISolver
                         }
                     )
             )
-            .Sum()
-            .ToString();
+            .Sum();
     }
 
     private struct Number

@@ -5,7 +5,7 @@ namespace AdventOfCode.Y2023.D11;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var m = input.Split('\n').Select(s => s.ToList()).ToList();
         var emptyRows = m.Select((cs, row) => new { Row = row, Characters = cs })
@@ -38,7 +38,7 @@ internal class Solver : ISolver
             where (p1.Row < p2.Row) || (p1.Row == p2.Row && p1.Col < p2.Col)
             select new { p1, p2 };
 
-        return combinations.Sum(ps => Distance(ps.p1, ps.p2)).ToString();
+        return combinations.Sum(ps => Distance(ps.p1, ps.p2));
     }
 
     private static int Distance(Point a, Point b) => Math.Abs(a.Row - b.Row) + Math.Abs(a.Col - b.Col);
@@ -49,7 +49,7 @@ internal class Solver : ISolver
         public int Col = col;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var m = input.Split('\n').Select(s => s.ToList()).ToList();
         var emptyRows = m.Select((cs, row) => new { Row = row, Characters = cs })
@@ -71,9 +71,7 @@ internal class Solver : ISolver
             where (p1.Row < p2.Row) || (p1.Row == p2.Row && p1.Col < p2.Col)
             select new { p1, p2 };
 
-        return combinations
-            .Aggregate(BigInteger.Zero, (acc, ps) => acc + Distance(ps.p1, ps.p2, emptyRows, emptyCols))
-            .ToString();
+        return combinations.Aggregate(BigInteger.Zero, (acc, ps) => acc + Distance(ps.p1, ps.p2, emptyRows, emptyCols));
     }
 
     private static BigInteger Distance(Point a, Point b, int[] emptyRows, int[] emptyCols)

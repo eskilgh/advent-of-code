@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2022.D05;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var stacks = ParseStacks(input.Split("\n\n")[0]);
         foreach (var instruction in input.Split("\n\n")[1].Split("\n"))
@@ -12,7 +12,7 @@ internal class Solver : ISolver
         return new string(stacks.Select(stack => stack.Pop()).ToArray());
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var stacks = ParseStacks(input.Split("\n\n")[0]);
         foreach (var instruction in input.Split("\n\n")[1].Split("\n"))

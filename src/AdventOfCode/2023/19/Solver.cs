@@ -7,7 +7,7 @@ namespace AdventOfCode.Y2023.D19;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         if ((input.Split("\n\n") is not [string first, string second]))
             throw new ArgumentOutOfRangeException();
@@ -26,10 +26,10 @@ internal class Solver : ISolver
             }
         );
 
-        return accepted.Select(part => part.X + part.A + part.M + part.S).Sum().ToString();
+        return accepted.Select(part => part.X + part.A + part.M + part.S).Sum();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var workflows = input
             .Split("\n\n")[0]
@@ -88,7 +88,7 @@ internal class Solver : ISolver
                     seenCombination.DistinctIntersections(combination)).Aggregate((acc, e) => acc + e);
             ans += distinctCombinations - distinctIntersections;
         }
-        return ans.ToString();
+        return ans;
     }
 
     static Func<Combination, (Combination?, Combination?, string)> ParseRule(string rawRule)

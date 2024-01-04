@@ -2,7 +2,7 @@ namespace AdventOfCode.Y2023.D04;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         return input
             .Split('\n')
@@ -15,11 +15,10 @@ internal class Solver : ISolver
                 var winningNumbersCount = nums[0].Intersect(nums[1]).Count();
                 return winningNumbersCount == 0 ? 0 : Math.Pow(2, winningNumbersCount - 1);
             })
-            .Sum()
-            .ToString();
+            .Sum();
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var matchingNumbersCounts = input
             .Split('\n')
@@ -46,6 +45,6 @@ internal class Solver : ISolver
                 cardInstances[cardInstanceIndex] += instancesOfCurrentCard;
             }
         }
-        return cardInstances.Sum().ToString();
+        return cardInstances.Sum();
     }
 }

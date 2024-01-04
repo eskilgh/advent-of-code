@@ -5,7 +5,7 @@ namespace AdventOfCode.Y2022.D09;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var instructions = ParseInstructions(input);
 
@@ -20,10 +20,10 @@ internal class Solver : ISolver
                 visitedPositions.Add(knot[^1]);
             }
         }
-        return visitedPositions.Count.ToString();
+        return visitedPositions.Count;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var instructions = ParseInstructions(input);
 
@@ -38,7 +38,7 @@ internal class Solver : ISolver
                 visitedPositions.Add(knot[^1]);
             }
         }
-        return visitedPositions.Count.ToString();
+        return visitedPositions.Count;
     }
 
     private static IEnumerable<(string Direction, int Steps)> ParseInstructions(string input) =>

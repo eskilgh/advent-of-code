@@ -4,7 +4,7 @@ namespace AdventOfCode.Y2023.D02;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         Dictionary<string, int> config =
             new()
@@ -30,10 +30,10 @@ internal class Solver : ISolver
             })
             .Sum();
 
-        return ans.ToString();
+        return ans;
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var ans = input
             .Split('\n')
@@ -56,6 +56,6 @@ internal class Solver : ISolver
                 return maxCounts.Values.Aggregate((a, b) => a * b);
             })
             .Sum();
-        return ans.ToString();
+        return ans;
     }
 }

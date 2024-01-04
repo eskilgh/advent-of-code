@@ -4,7 +4,7 @@ namespace AdventOfCode.Y2023.D23;
 
 internal class Solver : ISolver
 {
-    public string PartOne(string input)
+    public object PartOne(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
 
@@ -14,7 +14,7 @@ internal class Solver : ISolver
         var target = new Vector2d(x: endCol, y: m.Length - 1);
 
         var path = FindLongestPathNoLoops(m, start, target);
-        return (path.Count - 1).ToString();
+        return path.Count - 1;
     }
 
     List<Vector2d> FindLongestPathNoLoops(char[][] m, Vector2d start, Vector2d target)
@@ -55,7 +55,7 @@ internal class Solver : ISolver
         return paths[target];
     }
 
-    public string PartTwo(string input)
+    public object PartTwo(string input)
     {
         var m = input.Split('\n').Select(line => line.ToCharArray()).ToArray();
 
@@ -64,12 +64,11 @@ internal class Solver : ISolver
         var start = new Vector2d(x: startCol, y: 0);
         var target = new Vector2d(x: endCol, y: m.Length - 1);
 
-        return FindLongestPath(m, start, target).ToString();
+        return FindLongestPath(m, start, target);
     }
 
     int FindLongestPath(char[][] m, Vector2d start, Vector2d target)
     {
-
         var nodes = MapSegments(m, start, target);
         return FindLongestPathRec(nodes);
     }
@@ -77,17 +76,13 @@ internal class Solver : ISolver
     /// <summary>
     /// Finds longest path between first and last element of nodes.
     /// </summary>
-    int FindLongestPathRec(
-        (Vector2d node, (int connectedIndex, int length)[] connectedNodes)[] nodes
-    )
+    int FindLongestPathRec((Vector2d node, (int connectedIndex, int length)[] connectedNodes)[] nodes)
     {
         var seen = nodes.Select(_ => false).ToArray();
         var lengths = nodes.Select(_ => 0).ToArray();
 
-        void FindLongestPathInner(
-            int nodeIndex,
-            int currentLength
-        ) {
+        void FindLongestPathInner(int nodeIndex, int currentLength)
+        {
             var current = nodes[nodeIndex].node;
             if (seen[nodeIndex])
                 return;
