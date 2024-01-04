@@ -1,3 +1,5 @@
+using AngleSharp.Html;
+
 namespace AdventOfCode.Y2023.D12;
 
 internal class Solver : ISolver
@@ -5,43 +7,96 @@ internal class Solver : ISolver
     public string PartOne(string input)
     {
         var lines = input.Split('\n');
-        var conditions = lines.Select(line => line.Split(" ", StringSplitOptions.RemoveEmptyEntries)[0]);
-        var groupings = lines.Select(
-            line => line.Split(" ", StringSplitOptions.RemoveEmptyEntries)[0].Split(',').Select(int.Parse)
-        );
+        var conditions = lines
+            .Select(line => line.Split(" ", StringSplitOptions.RemoveEmptyEntries)[0].ToCharArray())
+            .ToArray();
+        var groupings = lines
+            .Select(
+                line => line.Split(" ", StringSplitOptions.RemoveEmptyEntries)[1].Split(',').Select(int.Parse).ToArray()
+            )
+            .ToArray();
 
-        return "Not available";
-    }
+        //var permutations = conditions.Zip(groupings, FindPermutations).ToArray();
+        var permutationsPerConditions = conditions.Zip(groupings, FindPerms).ToArray();
 
-    static string FindPermutations(char[] cs, int[] groups)
-    {
-        var i = 0;
-        var possiblePermutations = 0;
-
-
-        var prev = '.';
-        var consecutiveCount = 0;
-
-        FindPermutationsRec(cs, groups, 0);
-
-        while (i < cs.Length)
+        //Console.WriteLine(FindPermutations(conditions[0], groupings[0]));
+        for (var i = 0; i < permutationsPerConditions.Length; i++)
         {
-            if ()
+            var condition = conditions[i];
+            Console.WriteLine("\n" + new string(condition));
+            var permutations = permutationsPerConditions[i];
+            foreach (var permutation in permutations)
+            {
+                foreach (var (pos, groupSize) in permutation)
+                {
+                    for (var offset = 0; offset < groupSize; offset++)
+                        condition[pos + offset] = '#';
+                }
+                Console.WriteLine(new string(condition).Replace('?', '.'));
+            }
         }
+
+        return permutationsPerConditions.Select(ps => ps.Count()).Sum().ToString();
     }
 
-    static int FindPermutationsRec(char[] cs, int[] groups, int i) 
+    static List<List<(int pos, int groupSize)>> FindPerms(char[] cs, int[] groups)
     {
-        var target = groups.FirstOrDefault(group => group > 0);
-        if (target == 0)
+        return FindPermsRec(cs, groups, 0, 0);
+    }
+
+    static List<List<(int start, int groupSize)>> FindPermsRec(char[] cs, int[] groups, int startPos, int groupIdx)
+    {
+        if (groupIdx >= groups.Length)
+            return new List<List<(int, int)>>();
+
+        var groupSize = groups[groupIdx];
+        var possiblePermutations = new List<List<(int, int)>>();
+        var pos = startPos;
+        var canPlaceGroupAtCurrentPos =
+            (pos + groupSize) <= cs.Length
+            && cs[pos..(pos + groupSize)].All(c => c is '?' or '#')
+            && (pos + groupSize >= cs.Length || cs[pos + groupSize] is '?' or '.');
+        if (canPlaceGroupAtCurrentPos)
+        {
+            FindPermsRec(cs, groups, pos + groupSize + 1, groupIdx + 1)
+                .Select(e =>
+                {
+                    List<(int, int)> placements = [.. e, (pos, groupSize)];
+                    return placements;
+                });
+        }
+        return possiblePermutations;
+    }
+
+    static int FindPermutations(char[] cs, int[] groups)
+    {
+        return FindPermutationsRec(cs, groups, 0, 0);
+    }
+
+    static int FindPermutationsRec(char[] cs, int[] groups, int i, int groupIdx)
+    {
+        if (groupIdx >= groups.Length)
             return 1;
 
-        
-        var prev = i == 0 ? '.' : cs[i - 1];
-
-
+        var groupSize = groups[groupIdx];
+        var possiblePermutations = 0;
+        var pos = i;
+        while ((pos + groupSize) <= cs.Length)
+        {
+            var canPlaceGroupAtCurrentPos =
+                cs[pos..(pos + groupSize)].All(c => c is '?' or '#')
+                && (pos + groupSize >= cs.Length || cs[pos + groupSize] is '?' or '.');
+            if (canPlaceGroupAtCurrentPos)
+            {
+                possiblePermutations += FindPermutationsRec(cs, groups, pos + groupSize + 1, groupIdx + 1);
+                var isTheOnlyValidPlacementLeft = cs[pos..(pos + groupSize)].All(c => c is '#');
+                if (isTheOnlyValidPlacementLeft)
+                    return possiblePermutations;
+            }
+            pos++;
+        }
+        return possiblePermutations;
     }
-
 
     public string PartTwo(string input)
     {
