@@ -1,6 +1,7 @@
 using AdventOfCode.Common;
 using AdventOfCode.Y2022.D12;
 using Extreme.Mathematics;
+using MathNet.Numerics.LinearAlgebra.Complex;
 using Microsoft.VisualBasic;
 
 namespace AdventOfCode.Y2023.D24;
@@ -61,8 +62,31 @@ internal class Solver : ISolver
 
     public string PartTwo(string input)
     {
+        var hails = input
+            .Split('\n')
+            .Select(line =>
+            {
+                var vectors = line.Split('@', StringSplitOptions.TrimEntries)
+                    .Select(section =>
+                    {
+                        return section
+                            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                            .Select(decimal.Parse)
+                            .ToArray();
+                    })
+                    .ToArray();
+
+                return (p: vectors[0], v: vectors[1]);
+            })
+            // Only need three lines to setup the equation
+            .Take(3)
+            .ToArray();
+
+        if (!(hails is [var A, var B, var C])) throw new InvalidOperationException();
         return "Not available";
     }
+
+
 }
 
 public readonly struct Vector2(BigFloat x, BigFloat y)
