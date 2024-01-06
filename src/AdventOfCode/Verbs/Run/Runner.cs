@@ -30,16 +30,17 @@ public class Runner
         var partOneAnswer = solver.PartOne(input);
         stopwatch.Stop();
         var elapsedPartOne = stopwatch.Elapsed;
+        Console.WriteLine();
+        Console.WriteLine($"{Year}/{Day} Part one {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartOne.TotalMilliseconds}ms):");
+        Console.WriteLine(partOneAnswer);
+
         stopwatch.Restart();
         var partTwoAnswer = solver.PartTwo(input);
         stopwatch.Stop();
         var elapsedPartTwo = stopwatch.Elapsed;
-
-        Console.WriteLine();
-        Console.WriteLine($"{Year}/{Day} Part one {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartOne.Milliseconds}ms):");
-        Console.WriteLine(partOneAnswer);
-        Console.WriteLine($"{Year}/{Day} Part one {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartTwo.Milliseconds}ms):");
+        Console.WriteLine($"{Year}/{Day} Part one {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartTwo.TotalMilliseconds}ms):");
         Console.WriteLine(partTwoAnswer);
+
     }
 
     private ISolver GetSolver()
