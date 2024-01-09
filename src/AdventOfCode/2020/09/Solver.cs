@@ -1,3 +1,5 @@
+using MathNet.Numerics;
+
 namespace AdventOfCode.Y2020.D09;
 
 internal class Solver : ISolver
@@ -46,19 +48,15 @@ internal class Solver : ISolver
     /// </summary>
     static long FindInvalid(long[] ns, int preambleLength)
     {
-        var preamble = ns[0..preambleLength].ToList();
-
-        foreach (var n in ns[preambleLength..])
+        for (var i = preambleLength; i < ns.Length; i++)
         {
-            if (!ContainsPairSum(preamble, n))
-                return n;
-            preamble.RemoveAt(0);
-            preamble.Add(n);
+            if (!ContainsPairSum(ns[(i - preambleLength)..i], ns[i]))
+                return ns[i];
         }
-        throw new ArgumentException("No invalid number found");
+        return -1;
     }
 
-    static bool ContainsPairSum(List<long> preamble, long value)
+    static bool ContainsPairSum(IEnumerable<long> preamble, long value)
     {
         var seen = new HashSet<long>();
         foreach (var n in preamble)
