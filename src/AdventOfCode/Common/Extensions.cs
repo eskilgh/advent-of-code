@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace AdventOfCode.Common;
@@ -13,6 +14,11 @@ internal static class Extensions
         if (row < 0 || row >= m.Length || col < 0 || col >= m[0].Length)
             return fallback;
         return m[row][col];
+    }
+
+    public static bool IsOutOfBounds(this char[][] m, Complex pos)
+    {
+        return pos.Real < 0 || pos.Real >= m[0].Length || pos.Imaginary < 0 || pos.Imaginary >= m.Length;
     }
 
     public static IEnumerable<TResult> Pairwise<TSource, TResult>(
