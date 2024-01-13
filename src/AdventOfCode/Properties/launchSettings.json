@@ -2,7 +2,7 @@
   "profiles": {
     "AdventOfCode": {
       "commandName": "Project",
-      "commandLineArgs": "run 2020/11 -e",
+      "commandLineArgs": "run 2020/12",
       "workingDirectory": "C:\\Users\\eskil\\source\\repos\\advent-of-code\\src\\AdventOfCode"
     }
   }
