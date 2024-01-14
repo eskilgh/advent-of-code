@@ -34,4 +34,20 @@ public static class Utils
 
         return (-1, -1);
     }
+
+    public static bool AreCoprime(int a, int b)
+    {
+        return GCD(a, b) == 1;
+    }
+
+    public static int GCD(int x, int y)
+    {
+        while (y != 0)
+        {
+            int temp = y;
+            y = x % y;
+            x = temp;
+        }
+        return x;
+    }
 }
