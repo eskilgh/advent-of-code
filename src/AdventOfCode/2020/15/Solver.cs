@@ -4,49 +4,29 @@ internal class Solver : ISolver
 {
     public object PartOne(string input)
     {
-        var a = input.Split('\n')[0].Split(',').Select(int.Parse).ToList();
-        var iterations = a.Count - 1;
-        while (iterations < 2019)
-        {
-            var lastSpoken = a.Last();
-            var idx = LastSeen(a, lastSpoken);
-            var numToAdd = idx == -1 ? 0 : iterations - idx;
-            a.Add(numToAdd);
-            iterations++;
-        }
-        return a.Last();
+        var startingNumbers = input.Split('\n')[0].Split(',').Select(int.Parse).ToArray();
+        return GetNthNumber(startingNumbers, 2020);
     }
 
     public object PartTwo(string input)
     {
-        var a = input.Split('\n')[0].Split(',').Select(int.Parse).ToList();
-        var iterations = a.Count - 1;
-        while (iterations < 2019)
-        {
-            var lastSpoken = a.Last();
-            var idx = LastSeen(a, lastSpoken);
-            var numToAdd = idx == -1 ? 0 : iterations - idx;
-            a.Add(numToAdd);
-            iterations++;
-        }
-        return a.Last();
+        var startingNumbers = input.Split('\n')[0].Split(',').Select(int.Parse).ToArray();
+        return GetNthNumber(startingNumbers, 30_000_000);
     }
 
-    /// <summary>
-    /// Searches from right to left, excluding the last element
-    /// </summary>
-    static (int index, bool isInLoop) LastSeen(List<int> a, int n)
+    static int GetNthNumber(int[] startingNumbers, int N)
     {
-        var i = a.Count - 2;
-        var isInLoop = true;
-        while (i >= 0)
+        var seen = startingNumbers[0..^1].Select((n, i) => (n, i)).ToDictionary(tpl => tpl.n, tpl => tpl.i + 1);
+
+        var lastSpoken = startingNumbers[^1];
+        var iterations = startingNumbers.Length;
+        while (iterations < N)
         {
-            if (isInLoop && a[i] == 0)
-                isInLoop = false;
-            if (a[i] == n)
-                return (i, isInLoop);
-            i--;
+            var next = seen.TryGetValue(lastSpoken, out var lastSeen) ? iterations - lastSeen : 0;
+            seen[lastSpoken] = iterations;
+            lastSpoken = next;
+            iterations++;
         }
-        return (-1, false);
+        return lastSpoken;
     }
 }
