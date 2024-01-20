@@ -52,4 +52,7 @@ internal static class Extensions
         }
         return sb.ToString();
     }
+
+    public static IEnumerable<(T Element, int Index)> WithIndex<T>(this IEnumerable<T> enumerable) =>
+        enumerable.Select((e, i) => (e, i));
 }
