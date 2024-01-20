@@ -20,7 +20,7 @@ static async Task<int> HandleScaffold(ScaffoldOptions opts)
 {
     var year = opts.Date.Split('/')[0];
     var day = opts.Date.Split('/')[1];
-    var scaffolder = new Scaffolder(year: year, day: day, rootDir: Environment.CurrentDirectory);
+    var scaffolder = new Scaffolder(year: year, day: day, rootDir: Environment.CurrentDirectory, overwrite: opts.Overwrite);
     try
     {
         await scaffolder.Run();

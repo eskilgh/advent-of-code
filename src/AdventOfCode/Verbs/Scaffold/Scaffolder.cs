@@ -11,20 +11,23 @@ public class Scaffolder
     public readonly string Year;
     public readonly string Day;
     private readonly string _rootDir;
+    private readonly bool _overwrite;
+
     private readonly Url baseUrl = new(new Uri("http://adventofcode.com").ToString());
     private string TargetDir => Path.Combine(_rootDir, Year, Day);
 
-    public Scaffolder(string year, string day, string rootDir)
+    public Scaffolder(string year, string day, string rootDir, bool overwrite)
     {
         Year = year;
         Day = day;
         _rootDir = Path.GetFullPath(Environment.ExpandEnvironmentVariables(rootDir));
+        _overwrite = overwrite;
     }
 
     public async Task Run()
     {
-        await ScaffoldSolver();
         await FetchAndWriteInput();
+        await ScaffoldSolver();
     }
 
     public async Task FetchAndWriteInput()
@@ -35,16 +38,23 @@ public class Scaffolder
         await WriteToFile(path: inputPath, content: input);
 
         var exampleInput = await GetExampleInput(context);
-        var exampleInputPath = Path.Combine(TargetDir, "input.example.txt");
-        await WriteToFile(path: exampleInputPath, content: exampleInput);
+        if (exampleInput is null)
+        {
+            Console.WriteLine("Failed scraping example input");
+        }
+        else
+        {
+            var exampleInputPath = Path.Combine(TargetDir, "input.example.txt");
+            await WriteToFile(path: exampleInputPath, content: exampleInput);
+        }
     }
 
-    private async Task<string> GetExampleInput(IBrowsingContext context)
+    private async Task<string?> GetExampleInput(IBrowsingContext context)
     {
         var dayWithoutLeadingZeroes = int.Parse(Day, NumberStyles.Any);
 
         var problemStatement = await context.OpenAsync(new Url(baseUrl, $"{Year}/day/{dayWithoutLeadingZeroes}"));
-        return problemStatement.QuerySelector("pre code")!.InnerHtml;
+        return problemStatement.QuerySelector("pre code")?.InnerHtml;
     }
 
     private async Task<string> GetInput(IBrowsingContext context)
@@ -81,16 +91,19 @@ public class Scaffolder
         }
         var solverTemplate = SolverTemplateGenerator.Generate(year: Year, day: Day);
         var solverPath = Path.Combine(TargetDir, "Solver.cs");
-        await WriteToFile(content: solverTemplate, path: solverPath);
+        var didWrite = await WriteToFile(content: solverTemplate, path: solverPath);
+        if (!didWrite)
+        {
+            Console.WriteLine($"Solver file already exists at {solverPath}. (Use --overwrite option to force overwrite");
+        }
     }
 
-    private async Task WriteToFile(string content, string path)
+    private async Task<bool> WriteToFile(string content, string path)
     {
-        if (File.Exists(path))
-        {
-            throw new Exception($"File already exists on {path} ");
-        }
+        if (File.Exists(path) && !_overwrite)
+            return false;
         await File.WriteAllTextAsync(path, content);
+        return true;
     }
 
     private static string GetSession()
