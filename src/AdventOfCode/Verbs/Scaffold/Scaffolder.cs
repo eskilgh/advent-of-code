@@ -35,6 +35,10 @@ public class Scaffolder
         var context = GetContext();
         var input = await GetInput(context);
         var inputPath = Path.Combine(TargetDir, "input.txt");
+
+        if (!Directory.Exists(TargetDir))
+            Directory.CreateDirectory(TargetDir);
+
         await WriteToFile(path: inputPath, content: input);
 
         var exampleInput = await GetExampleInput(context);
@@ -85,16 +89,14 @@ public class Scaffolder
 
     public async Task ScaffoldSolver()
     {
-        if (!Directory.Exists(TargetDir))
-        {
-            Directory.CreateDirectory(TargetDir);
-        }
         var solverTemplate = SolverTemplateGenerator.Generate(year: Year, day: Day);
         var solverPath = Path.Combine(TargetDir, "Solver.cs");
         var didWrite = await WriteToFile(content: solverTemplate, path: solverPath);
         if (!didWrite)
         {
-            Console.WriteLine($"Solver file already exists at {solverPath}. (Use --overwrite option to force overwrite");
+            Console.WriteLine(
+                $"Solver file already exists at {solverPath}. (Use --overwrite option to force overwrite"
+            );
         }
     }
 
