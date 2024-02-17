@@ -16,11 +16,13 @@ internal class Solver : ISolver
             )
             .ToArray();
 
-        //var permutations = conditions.Zip(groupings, FindPermutations).ToArray();
-        var permutationsPerConditions = conditions.Zip(groupings, FindPerms).ToArray();
+        var permutations = conditions.Zip(groupings, FindPermutations).ToArray();
+        Console.WriteLine(string.Join(" ", permutations));
+        return permutations.Sum();
+        //var permutationsPerConditions = conditions.Zip(groupings, FindPerms).ToArray();
 
         //Console.WriteLine(FindPermutations(conditions[0], groupings[0]));
-        for (var i = 0; i < permutationsPerConditions.Length; i++)
+        /*for (var i = 0; i < permutationsPerConditions.Length; i++)
         {
             var condition = conditions[i];
             Console.WriteLine("\n" + new string(condition));
@@ -35,8 +37,8 @@ internal class Solver : ISolver
                 Console.WriteLine(new string(condition).Replace('?', '.'));
             }
         }
-
         return permutationsPerConditions.Select(ps => ps.Count()).Sum();
+*/
     }
 
     static List<List<(int pos, int groupSize)>> FindPerms(char[] cs, int[] groups)
@@ -68,7 +70,7 @@ internal class Solver : ISolver
         return possiblePermutations;
     }
 
-    static int FindPermutations(char[] cs, int[] groups)
+    public static int FindPermutations(char[] cs, int[] groups)
     {
         return FindPermutationsRec(cs, groups, 0, 0);
     }
@@ -76,15 +78,20 @@ internal class Solver : ISolver
     static int FindPermutationsRec(char[] cs, int[] groups, int i, int groupIdx)
     {
         if (groupIdx >= groups.Length)
-            return 1;
+            // Not valid if remaining '#'s 
+            return i >= cs.Length || cs[i..].All(c => c is not '#') ? 1 : 0;
+        if (i >= cs.Length)
+            return 0;
 
         var groupSize = groups[groupIdx];
         var possiblePermutations = 0;
         var pos = i;
-        while ((pos + groupSize) <= cs.Length)
+        var nextBrokenSpring = Array.IndexOf(cs, '#', i);
+        while ((pos + groupSize) <= cs.Length && (nextBrokenSpring == -1 || pos <= nextBrokenSpring))
         {
             var canPlaceGroupAtCurrentPos =
                 cs[pos..(pos + groupSize)].All(c => c is '?' or '#')
+                // if not at the end, must have a '.' between '#'
                 && (pos + groupSize >= cs.Length || cs[pos + groupSize] is '?' or '.');
             if (canPlaceGroupAtCurrentPos)
             {
@@ -93,6 +100,7 @@ internal class Solver : ISolver
                 if (isTheOnlyValidPlacementLeft)
                     return possiblePermutations;
             }
+            
             pos++;
         }
         return possiblePermutations;
