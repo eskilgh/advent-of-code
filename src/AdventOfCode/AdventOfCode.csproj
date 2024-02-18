@@ -24,4 +24,8 @@
     <Folder Include="2020\12\" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="UnitTests"/>
+	</ItemGroup>
+
 </Project>
