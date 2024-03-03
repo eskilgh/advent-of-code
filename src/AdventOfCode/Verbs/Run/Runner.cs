@@ -38,7 +38,7 @@ public class Runner
         var partTwoAnswer = solver.PartTwo(input);
         stopwatch.Stop();
         var elapsedPartTwo = stopwatch.Elapsed;
-        Console.WriteLine($"{Year}/{Day} Part one {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartTwo.TotalMilliseconds}ms):");
+        Console.WriteLine($"{Year}/{Day} Part two {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartTwo.TotalMilliseconds}ms):");
         Console.WriteLine(partTwoAnswer);
 
     }
