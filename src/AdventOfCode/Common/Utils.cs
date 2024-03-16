@@ -50,4 +50,9 @@ public static class Utils
         }
         return x;
     }
+
+    public static string GetCurrentProjectRootPath()
+    {
+        return Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)!.Parent!.Parent!.Parent!.FullName;
+    }
 }

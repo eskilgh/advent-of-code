@@ -1,6 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using AdventOfCode.Y2020.D01;
+using Microsoft.FSharp.Reflection;
+using static AdventOfCode.Common.Utils;
 
 namespace AdventOfCode.Verbs.Run;
 
@@ -9,15 +12,17 @@ public class Runner
     public readonly string Year;
     public readonly string Day;
     private readonly string _rootDir;
+    private readonly Language _language;
 
     private string InputFilePath => Path.Combine(_rootDir, Year, Day, "input.txt");
     private string ExampleInputFilePath => Path.Combine(_rootDir, Year, Day, "input.example.txt");
 
-    public Runner(string year, string day, string rootDir)
+    public Runner(string year, string day, Language language)
     {
         Year = year;
         Day = day;
-        _rootDir = Path.GetFullPath(Environment.ExpandEnvironmentVariables(rootDir));
+        _rootDir = GetCurrentProjectRootPath();
+        _language = language;
     }
 
     public async Task Run(bool exampleMode = false)
@@ -40,10 +45,26 @@ public class Runner
         var elapsedPartTwo = stopwatch.Elapsed;
         Console.WriteLine($"{Year}/{Day} Part two {(exampleMode ? "(example) " : "")}answer (runtime of {elapsedPartTwo.TotalMilliseconds}ms):");
         Console.WriteLine(partTwoAnswer);
-
     }
 
     private ISolver GetSolver()
+    {
+        return _language switch
+        {
+            Language.CSharp => GetCSharpSolver(),
+            Language.FSharp => GetFSharpSolver(),
+        };
+    }
+
+    private ISolver GetFSharpSolver()
+    {
+        var assembly = Assembly.Load("FSharpSolutions");
+        var @namespace = $"FSharpSolutions.Y{Year}.D{Day}";
+        var solverType = assembly.GetType($"{@namespace}.Solver")!;
+        return (Activator.CreateInstance(solverType) as ISolver)!;
+    }
+
+    private ISolver GetCSharpSolver()
     {
         var solverPath = Path.Combine(_rootDir, Year, Day, "Solver.cs");
         if (!File.Exists(solverPath))
