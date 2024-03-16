@@ -1,7 +1,7 @@
-/*namespace Shared;
-internal interface ISolver
+﻿namespace Shared;
+
+public interface ISolver
 {
     object PartOne(string input);
     object PartTwo(string input);
 }
-*/

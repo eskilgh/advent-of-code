@@ -16,4 +16,13 @@ class RunOptions
         HelpText = "Runs the solution with the example input from the problem prompt."
     )]
     public bool Example { get; set; }
+
+    [Option(
+        'l',
+        "language",
+        Required = false,
+        Default = Language.CSharp,
+        HelpText = "Language of the solver to look for and run"
+    )]
+    public Language Language { get; set; }
 }

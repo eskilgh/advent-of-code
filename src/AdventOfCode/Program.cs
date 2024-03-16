@@ -6,9 +6,10 @@ using AdventOfCode.Verbs.Scaffold;
 using CommandLine;
 
 // See https://aka.ms/new-console-template for more information
-
-await Parser
-    .Default
+await new Parser(with =>
+    {
+        with.CaseInsensitiveEnumValues = true;
+    })
     .ParseArguments<ScaffoldOptions, RunOptions>(args)
     .MapResult(
         (ScaffoldOptions opts) => HandleScaffold(opts),
@@ -20,7 +21,7 @@ static async Task<int> HandleScaffold(ScaffoldOptions opts)
 {
     var year = opts.Date.Split('/')[0];
     var day = opts.Date.Split('/')[1];
-    var scaffolder = new Scaffolder(year: year, day: day, rootDir: Environment.CurrentDirectory, overwrite: opts.Overwrite);
+    var scaffolder = new Scaffolder(year: year, day: day, overwrite: opts.Overwrite, opts.Language);
     try
     {
         await scaffolder.Run();
@@ -39,7 +40,7 @@ static async Task<int> HandleRun(RunOptions opts)
 {
     var year = opts.Date.Split('/')[0];
     var day = opts.Date.Split('/')[1];
-    var runner = new Runner(year: year, day: day, rootDir: Environment.CurrentDirectory);
+    var runner = new Runner(year: year, day: day, opts.Language);
     try
     {
         await runner.Run(opts.Example);
