@@ -25,16 +25,18 @@ internal class SolverTemplateGenerator
 
     internal static string GenerateFSharp(string year, string day)
     {
-        return $"""
- namespace FSharpSolutions.Y{year}.D{day}
- 
- type Solver() =
-     interface Shared.ISolver with
-         member this.PartOne(input: string): obj =
-             "Not available"
-         member this.PartTwo(input: string): obj =
-             "Not available"
- 
+        return 
+$"""
+namespace FSharpSolutions.Y{year}.D{day}
+
+type Solver() =
+    interface Shared.ISolver with
+        member this.PartOne(input: string): obj =
+            "Not available"
+
+        member this.PartTwo(input: string): obj =
+            "Not available"
+
 """;
     }
 }

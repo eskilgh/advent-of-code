@@ -8,6 +8,7 @@
                 |> Array.map (fun m -> m / 3 - 2)
                 |> Array.sum 
                 |> box
+
          member this.PartTwo(input: string): obj =
             let rec calculateFuel m = 
                 match (m / 3 - 2) with
@@ -18,8 +19,4 @@
                 |> Array.map calculateFuel
                 |> Array.sum
                 |> box
-
-
-
-
  
