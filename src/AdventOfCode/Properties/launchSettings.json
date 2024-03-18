@@ -2,7 +2,7 @@
   "profiles": {
     "AdventOfCode": {
       "commandName": "Project",
-      "commandLineArgs": "run 2019/02 -e -l fsharp",
+      "commandLineArgs": "run 2019/03 -l fsharp",
       "workingDirectory": "C:\\Users\\n653917\\repos\\advent-of-code\\src\\AdventOfCode"
     }
   }
