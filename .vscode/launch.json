@@ -4,14 +4,13 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
     {
       "name": ".NET Core Launch (console)",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/AdventOfCode/bin/Debug/net7.0/AdventOfCode.dll",
-      "args": ["${relativeFileDirname}"],
+      "program": "${workspaceFolder}/src/AdventOfCode/bin/Debug/net8.0/AdventOfCode.dll",
+      "args": ["run", "2019/03", "-l fsharp",  "-e"],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "internalConsole"

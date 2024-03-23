@@ -5,7 +5,10 @@ type Solver() =
         match opcodes.[i] with
         | 1 | 2 -> 
             let op = if opcodes.[i] = 1 then (+) else (*)
-            let [| a; b; c; |] = opcodes.[i+1 .. i+3]
+            let a, b, c =
+                match opcodes.[i+1 .. i+3] with
+                | [| a; b; c; |] -> (a, b, c)
+                | _ -> failwith "Expected exactly three elements"
             opcodes.[c] <- op opcodes.[a] opcodes.[b]
             program opcodes (i + 4)
         | 99 -> opcodes.[0]
