@@ -10,6 +10,7 @@
     <Compile Include="2019\Day02.fs" />
     <Compile Include="2019\Day03.fs" />
     <Compile Include="2019\Day04.fs" />
+    <Compile Include="2019\Day05.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
