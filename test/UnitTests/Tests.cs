@@ -5,7 +5,7 @@ using Day12Solver = AdventOfCode.Y2023.D12.Solver;
 
 namespace UnitTests;
 
-public class Tests(ITestOutputHelper testOutputHelper)
+public class Tests()
 {
 
     [Fact]

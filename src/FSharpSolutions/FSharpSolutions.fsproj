@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup Label="Modules">
+    <Compile Include="2019\IntCode.fs" />
     <Compile Include="2023\Day01.fs" />
     <Compile Include="2019\Day01.fs" />
     <Compile Include="2019\Day02.fs" />
@@ -12,8 +13,12 @@
     <Compile Include="2019\Day04.fs" />
     <Compile Include="2019\Day05.fs" />
     <Compile Include="2019\Day06.fs" />
+    <Compile Include="2019\Day07.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.2.1" />
   </ItemGroup>
 </Project>
