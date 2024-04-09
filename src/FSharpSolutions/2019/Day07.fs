@@ -14,14 +14,14 @@ type Solver() =
                 | NeedsInput (_, nextComputeFn') -> nextComputeFn')
 
     let doAmplifierPass ampStates prevOutput =
-        let folder ((xs: (int -> Output) list), prevOutput: int) (computeFn: int -> Output) =
+        let folder ((xs: (int64 -> Output) list), prevOutput: int64) (computeFn: int64 -> Output) =
             match computeFn prevOutput with
             | Halted outputs -> xs, List.last outputs
             | NeedsInput (outputs, nextComputeFn) -> xs @ [ nextComputeFn ], List.last outputs
 
         ampStates |> List.fold folder ([], prevOutput)
 
-    let calculateSignalNoLoop (opcodes: int []) (phaseSettings: int list) =
+    let calculateSignalNoLoop (opcodes: int64 []) (phaseSettings: int64 list) =
         // apply phase setting to all amplifiers to get initial state
         let initialAmpState = setupAmplifiers opcodes phaseSettings
 
@@ -29,11 +29,11 @@ type Solver() =
         output
 
 
-    let calculateSignalWithLoop (opcodes: int []) (phaseSettings: int list) =
+    let calculateSignalWithLoop (opcodes: int64 []) (phaseSettings: int64 list) =
         // apply phase setting to all amplifiers to get initial state
         let initialAmpState = setupAmplifiers opcodes phaseSettings
 
-        let rec feedbackLoop (ampStates: (int -> Output) list) (prevOutput: int) =
+        let rec feedbackLoop (ampStates: (int64 -> Output) list) (prevOutput: int64) =
             match ampStates with
             // End condition, all amplifier programs have halted
             | [] -> prevOutput
@@ -58,10 +58,10 @@ type Solver() =
 
     interface Shared.ISolver with
         member this.PartOne(input: string) : obj =
-            let opcodes = input.Split(',') |> Array.map int
+            let opcodes = input.Split(',') |> Array.map int64
 
             let maxThrust =
-                [ 0; 1; 2; 3; 4 ]
+                [ 0L; 1L; 2L; 3L; 4L ]
                 |> getAllPermutations
                 |> List.map (calculateSignalNoLoop opcodes)
                 |> List.max
@@ -69,10 +69,10 @@ type Solver() =
             maxThrust |> box
 
         member this.PartTwo(input: string) : obj =
-            let opcodes = input.Split(',') |> Array.map int
+            let opcodes = input.Split(',') |> Array.map int64
 
             let maxThrust =
-                [ 5; 6; 7; 8; 9 ]
+                [ 5L; 6L; 7L; 8L; 9L ]
                 |> getAllPermutations
                 |> List.map (calculateSignalWithLoop opcodes)
                 |> List.max
