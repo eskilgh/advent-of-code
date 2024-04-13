@@ -12,14 +12,12 @@ type Solver() =
 
     let subtractTpl (x1: int, y1: int) (x2: int, y2: int) = (x1 - x2, y1 - y2)
 
-    let clockwiseAngle (u: int * int) (v: int * int) =
-        let u_x, u_y = float (fst u), float (snd u)
-        let v_x, v_y = float (fst v), float (snd v)
+    let clockwiseAngle (u_x, u_y) (v_x, v_y) =
         let dotProduct = u_x * v_x + u_y * v_y
         let crossProduct = u_x * v_y - u_y * v_x
 
         // rounding the angle might be required for some inputs, but not for mine
-        match atan2 (crossProduct) (dotProduct) with
+        match atan2 (float crossProduct) (float dotProduct) with
         | ang when ang < 0.0 -> ang + Math.Tau
         | ang when ang >= Math.Tau -> ang - Math.Tau
         | ang -> ang
