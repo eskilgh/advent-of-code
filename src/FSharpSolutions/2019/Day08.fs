@@ -33,7 +33,7 @@ type Solver() =
             let pickFirstVisible =
                 Seq.pick (fun pixel ->
                     match pixel with
-                    | Black -> Some '░'
+                    | Black -> Some ' '
                     | White -> Some '█'
                     | Transparent -> None)
 
