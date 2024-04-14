@@ -1,4 +1,5 @@
 {
   "dotnet.defaultSolution": "src/AdventOfCode/AdventOfCode.sln",
-  "FSharp.inlayHints.parameterNames": false
+  "FSharp.inlayHints.parameterNames": false,
+  "FSharp.inlayHints.typeAnnotations": false
 }

@@ -12,3 +12,11 @@ let array2DToString (array: 'a [,]) =
         sb.Append('\n') |> ignore
 
     sb.ToString()
+
+let rec gcd a b = if b = 0L then a else gcd b (a % b)
+
+let lcm a b =
+    if a = 0L || b = 0L then
+        0L
+    else
+        abs (a * b) / gcd a b
