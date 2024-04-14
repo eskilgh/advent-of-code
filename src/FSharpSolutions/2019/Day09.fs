@@ -1,6 +1,6 @@
-namespace FSharpSolutions.Y2019.D09
+module Year2019Day09
 
-open FSharpSolutions.Y2019
+open IntCode
 
 type ProgramMode =
     | Test

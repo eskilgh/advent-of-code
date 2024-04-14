@@ -5,7 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup Label="Modules">
-    <Compile Include="2019\Common.fs" />
+    <Compile Include="Common.fs" />
     <Compile Include="2019\IntCode.fs" />
     <Compile Include="2023\Day01.fs" />
     <Compile Include="2019\Day01.fs" />

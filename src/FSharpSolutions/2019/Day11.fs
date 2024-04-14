@@ -1,6 +1,6 @@
-namespace FSharpSolutions.Y2019.D11
+module Year2019Day11
 
-open FSharpSolutions.Y2019
+open IntCode
 open Common
 open System
 

@@ -1,4 +1,4 @@
-namespace FSharpSolutions.Y2019.D05
+module Year2019Day05
 
 module IntCode =
     let (|Position|_|) value =

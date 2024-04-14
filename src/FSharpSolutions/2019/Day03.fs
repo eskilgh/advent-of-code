@@ -1,4 +1,4 @@
-namespace FSharpSolutions.Y2019.D03
+module Year2019Day03
 
 type Point = { X: int; Y: int; Steps: int }
 

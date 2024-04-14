@@ -1,4 +1,4 @@
-namespace FSharpSolutions.Y2019.D04
+module Year2019Day04
 
 type Solver() =
     interface Shared.ISolver with

@@ -1,4 +1,4 @@
-namespace FSharpSolutions.Y2019
+module IntCode
 
 type Output =
     | NeedsInput of int64 list * (int64 -> Output)
@@ -28,145 +28,145 @@ type Memory =
 
 
 
-module IntCode =
-    let (|Position|_|) value =
-        if value = 0 then
-            Some Position
-        else
-            None
 
-    let (|Immediate|_|) value =
-        if value = 1 then
-            Some Immediate
-        else
-            None
+let (|Position|_|) value =
+    if value = 0 then
+        Some Position
+    else
+        None
 
-    let (|Relative|_|) value =
-        if value = 2 then
-            Some Relative
-        else
-            None
+let (|Immediate|_|) value =
+    if value = 1 then
+        Some Immediate
+    else
+        None
 
-    let (|Add|_|) value =
-        if value = 1 then
-            Some(fun a b -> a + b)
-        else
-            None
+let (|Relative|_|) value =
+    if value = 2 then
+        Some Relative
+    else
+        None
 
-    let (|Multiply|_|) value =
-        if value = 2 then
-            Some(fun a b -> a * b)
-        else
-            None
+let (|Add|_|) value =
+    if value = 1 then
+        Some(fun a b -> a + b)
+    else
+        None
 
-    let (|Input|_|) value = if value = 3 then Some Input else None
-    let (|Output|_|) value = if value = 4 then Some Output else None
+let (|Multiply|_|) value =
+    if value = 2 then
+        Some(fun a b -> a * b)
+    else
+        None
 
-    let (|JumpIfPredicate|_|) value =
-        match value with
-        | 5 -> Some(fun a -> a <> 0)
-        | 6 -> Some(fun a -> a = 0)
-        | _ -> None
+let (|Input|_|) value = if value = 3 then Some Input else None
+let (|Output|_|) value = if value = 4 then Some Output else None
 
-    let (|JumpIfTrue|_|) value =
-        if value = 5 then
-            Some JumpIfTrue
-        else
-            None
+let (|JumpIfPredicate|_|) value =
+    match value with
+    | 5 -> Some(fun a -> a <> 0)
+    | 6 -> Some(fun a -> a = 0)
+    | _ -> None
 
-    let (|JumpIfFalse|_|) value =
-        if value = 6 then
-            Some JumpIfFalse
-        else
-            None
+let (|JumpIfTrue|_|) value =
+    if value = 5 then
+        Some JumpIfTrue
+    else
+        None
 
-    let (|LessThan|_|) value =
-        if value = 7 then
-            Some(fun a b -> a < b)
-        else
-            None
+let (|JumpIfFalse|_|) value =
+    if value = 6 then
+        Some JumpIfFalse
+    else
+        None
 
-    let (|Equals|_|) value =
-        if value = 8 then
-            Some(fun a b -> a = b)
-        else
-            None
+let (|LessThan|_|) value =
+    if value = 7 then
+        Some(fun a b -> a < b)
+    else
+        None
 
-    let (|RelativeBaseOffset|_|) value =
-        if value = 9 then
-            Some RelativeBaseOffset
-        else
-            None
+let (|Equals|_|) value =
+    if value = 8 then
+        Some(fun a b -> a = b)
+    else
+        None
 
-    let (|Halt|_|) value = if value = 99 then Some Halt else None
+let (|RelativeBaseOffset|_|) value =
+    if value = 9 then
+        Some RelativeBaseOffset
+    else
+        None
 
-    type InstructionType =
-        | Read
-        | Write
+let (|Halt|_|) value = if value = 99 then Some Halt else None
 
-    let execute (opcodes: int64 []) =
-        let memory = opcodes |> Memory.ofArray
+type InstructionType =
+    | Read
+    | Write
 
-        let rec executeRec (memory: Memory) (i: int64) (rBase: int64) (outputs: int64 list) : Output =
-            let getParam paramType offset =
-                let mode =
-                    (memory.[i]) / (pown 10L (offset + 1)) % 10L
-                    |> int
+let execute (opcodes: int64 []) =
+    let memory = opcodes |> Memory.ofArray
 
-                match mode, paramType with
-                | Position, Write -> memory.[i + (int64 offset)]
-                | Position, Read -> memory.[memory.[i + (int64 offset)]]
-                | Immediate, Write -> failwith "Write instruction params should never be in immediate mode"
-                | Immediate, Read -> memory.[i + (int64 offset)]
-                | Relative, Write -> rBase + memory.[i + (int64 offset)]
-                | Relative, Read -> memory.[rBase + memory.[i + (int64 offset)]]
-                | _ -> failwith $"Unexpected parameter mode {mode}"
+    let rec executeRec (memory: Memory) (i: int64) (rBase: int64) (outputs: int64 list) : Output =
+        let getParam paramType offset =
+            let mode =
+                (memory.[i]) / (pown 10L (offset + 1)) % 10L
+                |> int
 
-            let getAddress = getParam Write
-            let getValue = getParam Read
+            match mode, paramType with
+            | Position, Write -> memory.[i + (int64 offset)]
+            | Position, Read -> memory.[memory.[i + (int64 offset)]]
+            | Immediate, Write -> failwith "Write instruction params should never be in immediate mode"
+            | Immediate, Read -> memory.[i + (int64 offset)]
+            | Relative, Write -> rBase + memory.[i + (int64 offset)]
+            | Relative, Read -> memory.[rBase + memory.[i + (int64 offset)]]
+            | _ -> failwith $"Unexpected parameter mode {mode}"
 
-            let opcode = (memory.[i]) % 100L |> int
+        let getAddress = getParam Write
+        let getValue = getParam Read
 
-            match opcode with
-            | Add op
-            | Multiply op ->
-                let a, b, address = (getValue 1, getValue 2, getAddress 3)
-                let newMem = memory.Add address (op a b)
-                executeRec newMem (i + 4L) rBase outputs
-            | Input ->
+        let opcode = (memory.[i]) % 100L |> int
 
-                let address = getAddress 1
+        match opcode with
+        | Add op
+        | Multiply op ->
+            let a, b, address = (getValue 1, getValue 2, getAddress 3)
+            let newMem = memory.Add address (op a b)
+            executeRec newMem (i + 4L) rBase outputs
+        | Input ->
 
-                let callback inp =
-                    let newMem = memory.Add address inp
-                    executeRec newMem (i + 2L) rBase []
+            let address = getAddress 1
 
-                NeedsInput(outputs, callback)
+            let callback inp =
+                let newMem = memory.Add address inp
+                executeRec newMem (i + 2L) rBase []
 
-            | Output ->
-                let a = getValue 1
-                executeRec memory (i + 2L) rBase (outputs @ [ a ])
-            | JumpIfTrue
-            | JumpIfFalse ->
-                let a, b = getValue 1, getValue 2
+            NeedsInput(outputs, callback)
 
-                let newIndex =
-                    match opcode with
-                    | 5 when a <> 0 -> b
-                    | 6 when a = 0 -> b
-                    | _ -> (i + 3L)
+        | Output ->
+            let a = getValue 1
+            executeRec memory (i + 2L) rBase (outputs @ [ a ])
+        | JumpIfTrue
+        | JumpIfFalse ->
+            let a, b = getValue 1, getValue 2
 
-                executeRec memory newIndex rBase outputs
-            | LessThan comparator
-            | Equals comparator ->
-                let a, b, address = getValue 1, getValue 2, getAddress 3
-                let value = if comparator a b then 1L else 0L
-                let newMem = memory.Add address value
-                executeRec newMem (i + 4L) rBase outputs
-            | RelativeBaseOffset ->
-                let a = getValue 1
-                executeRec memory (i + 2L) (rBase + a) outputs
-            | Halt -> Halted outputs
-            | n -> failwith $"Invalid opcode: {n}"
+            let newIndex =
+                match opcode with
+                | 5 when a <> 0 -> b
+                | 6 when a = 0 -> b
+                | _ -> (i + 3L)
 
-        executeRec memory 0 0 []
+            executeRec memory newIndex rBase outputs
+        | LessThan comparator
+        | Equals comparator ->
+            let a, b, address = getValue 1, getValue 2, getAddress 3
+            let value = if comparator a b then 1L else 0L
+            let newMem = memory.Add address value
+            executeRec newMem (i + 4L) rBase outputs
+        | RelativeBaseOffset ->
+            let a = getValue 1
+            executeRec memory (i + 2L) (rBase + a) outputs
+        | Halt -> Halted outputs
+        | n -> failwith $"Invalid opcode: {n}"
+
+    executeRec memory 0 0 []

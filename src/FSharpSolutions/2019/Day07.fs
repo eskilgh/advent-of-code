@@ -1,6 +1,6 @@
-namespace FSharpSolutions.Y2019.D07
+module Year2019Day07
 
-open FSharpSolutions.Y2019
+open IntCode
 
 type Solver() =
     let setupAmplifiers opcodes phaseSettings =

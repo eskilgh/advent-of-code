@@ -1,4 +1,4 @@
-namespace FSharpSolutions.Y2019.D08
+module Year2019Day08
 
 open System
 

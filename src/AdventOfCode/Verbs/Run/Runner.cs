@@ -59,8 +59,7 @@ public class Runner
     private ISolver GetFSharpSolver()
     {
         var assembly = Assembly.Load("FSharpSolutions");
-        var @namespace = $"FSharpSolutions.Y{Year}.D{Day}";
-        var solverType = assembly.GetType($"{@namespace}.Solver")!;
+        var solverType = assembly.GetType($"Year{Year}Day{Day}+Solver")!;
         return (Activator.CreateInstance(solverType) as ISolver)!;
     }
 

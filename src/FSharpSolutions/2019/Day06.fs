@@ -1,4 +1,4 @@
-namespace FSharpSolutions.Y2019.D06
+module Year2019Day06
 
 type Solver() =
     let countOrbits (entities: Map<string, string list>) =

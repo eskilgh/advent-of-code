@@ -1,4 +1,4 @@
-namespace FSharpSolutions.Y2019.D02
+module Year2019Day02
 
 type Solver() =
     let rec program (opcodes: int []) i =
