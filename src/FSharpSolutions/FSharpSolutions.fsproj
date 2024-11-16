@@ -23,6 +23,7 @@
     <Compile Include="2019\Day12.fs" />
     <Compile Include="2019\Day13.fs" />
     <Compile Include="2019\Day14.fs" />
+    <Compile Include="2018\Day01.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
