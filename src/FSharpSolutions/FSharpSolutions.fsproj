@@ -22,7 +22,6 @@
     <Compile Include="2019\Day11.fs" />
     <Compile Include="2019\Day12.fs" />
     <Compile Include="2019\Day13.fs" />
-    <Compile Include="2019\Day14.fs" />
     <Compile Include="2018\Day01.fs" />
     <Compile Include="2018\Day02.fs" />
   </ItemGroup>
