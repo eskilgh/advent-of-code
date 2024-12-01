@@ -10,7 +10,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       "program": "${workspaceFolder}/src/AdventOfCode/bin/Debug/net8.0/AdventOfCode.dll",
-      "args": ["run", "2018/06", "-e", "-l fsharp"],
+      "args": ["run", "2024/01", "-e", "-l fsharp"],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "internalConsole"
