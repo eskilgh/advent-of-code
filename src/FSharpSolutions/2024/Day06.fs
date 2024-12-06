@@ -3,7 +3,6 @@ module Year2024Day06
 open Common
 open Extensions
 open FSharp.Stats
-open FSharp.Stats
 open System.Collections.Generic
 
 
@@ -21,8 +20,6 @@ let getGuardPos m =
     |> Seq.choose id
     |> Seq.head
 
-
-let mapToTuple f (v: Vector<float>) = f v.[0], f v.[1]
 
 let charAt m (v: Vector<float>) =
     let row, col = mapToTuple int v

@@ -15,6 +15,8 @@ let outOfBounds (array: 'a [,]) (row, col) =
 
 let rotate90 (v: Vector<float>) = vector [| v.[1]; -v.[0] |]
 
+let mapToTuple f (v: Vector<float>) = f v.[0], f v.[1]
+
 let array2DToString (array: 'a [,]) =
     let sb = new StringBuilder()
 
