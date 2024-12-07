@@ -33,6 +33,7 @@
     <Compile Include="2024\Day05.fs" />
     <Compile Include="2024\Day03.fs" />
     <Compile Include="2024\Day06.fs" />
+    <Compile Include="2024\Day07.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
@@ -40,5 +41,6 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.2.1" />
     <PackageReference Include="FSharp.Stats" Version="0.5.0" />
+    <PackageReference Include="FSharpx.Collections" Version="3.1.0" />
   </ItemGroup>
 </Project>
