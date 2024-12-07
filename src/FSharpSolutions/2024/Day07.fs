@@ -14,6 +14,7 @@ let parse (input: string) =
 
         target, nums)
 
+#nowarn 86
 let (||) a b = int64 ((string a) + (string b))
 
 let canMakeTarget target (ops: list<(int64 -> int64 -> int64)>) (nums: list<int64>) =

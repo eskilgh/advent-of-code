@@ -27,6 +27,7 @@ let pairwiseForAllWithTolerance check (tolerance: int) xs =
 
             let dropX = lazy inner (tolerance - 1) passed xs'
             dropX.Value || dropP.Value
+        | _ -> failwith "this should never happen"
 
     inner tolerance [] xs
 
