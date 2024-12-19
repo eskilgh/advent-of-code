@@ -17,6 +17,11 @@ let rotate90 (v: Vector<float>) = vector [| v.[1]; -v.[0] |]
 
 let mapToTuple f (v: Vector<float>) = f v.[0], f v.[1]
 
+
+let addTpl (ax, ay) (bx, by) = ax + bx, ay + by
+
+let multTpl (x, y) scalar = x * scalar, y * scalar
+
 let outOfBoundsVec (m: 'a [,]) (pos: Vector<float>) =
     let (row, col) = mapToTuple int pos
     outOfBounds m (row, col)
