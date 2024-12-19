@@ -1,8 +1,6 @@
 module Year2024Day14
 
 open Common
-open System
-open System.Collections.Generic
 
 type Robot =
     { Position: int * int
@@ -17,10 +15,6 @@ let parse (input: string) =
         let pos = int posParts[0], int posParts[1]
         let vel = int velParts[0], int velParts[1]
         { Position = pos; Velocity = vel })
-
-let addTpl (ax, ay) (bx, by) = ax + bx, ay + by
-
-let multTpl (x, y) scalar = x * scalar, y * scalar
 
 let negMod x m =
     let result = x % m
